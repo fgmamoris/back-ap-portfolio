@@ -6,6 +6,7 @@ package com.mamoris.portfolio.service.impl;
 
 import com.mamoris.portfolio.entity.Rol;
 import com.mamoris.portfolio.entity.Usuario;
+import com.mamoris.portfolio.utils.enums.RolNombre;
 import java.util.List;
 import java.util.Optional;
 
@@ -17,11 +18,11 @@ public interface IRolService {
 
     public List<Rol> findAll();
 
-    public Rol findRolById(Long id);
+    public Optional<Rol> findRolById(Long id);
 
-    public Rol findRolByUsuario(Long id);
+    public Optional<Rol> findRolByUsuario(Long id);
 
-    public Rol findRolByNombre(String rolNombre);
+    public Rol findByRolNombre(RolNombre rolNombre);
 
     public Rol save(Rol rol);
 

@@ -1,13 +1,14 @@
 /*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package com.mamoris.portfolio.service;
 
 import com.mamoris.portfolio.entity.Rol;
 import com.mamoris.portfolio.repository.RolRepository;
+import com.mamoris.portfolio.repository.UsuarioRepository;
 import com.mamoris.portfolio.service.impl.IRolService;
+import com.mamoris.portfolio.utils.enums.RolNombre;
 import java.util.List;
+import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,10 +21,12 @@ import org.springframework.stereotype.Service;
 @Service
 public class RolService implements IRolService {
 
-   private static final Logger LOGGER = LoggerFactory.getLogger(RolService.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(RolService.class);
 
-    @Autowired(required=false)
+    @Autowired
     private RolRepository repo;
+    @Autowired
+    private UsuarioRepository repoUsuario;
 
     @Override
     public List<Rol> findAll() {
@@ -31,18 +34,20 @@ public class RolService implements IRolService {
     }
 
     @Override
-    public Rol findRolById(Long id) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public Optional<Rol> findRolById(Long id) {
+        return repo.findById(id);
     }
 
     @Override
-    public Rol findRolByUsuario(Long id) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public Optional<Rol> findRolByUsuario(Long id) {
+        return repo.findById(id);
+        //return repo.findByIdUsuario(repoUsuario.findById(id));
+
     }
 
     @Override
-    public Rol findRolByNombre(String rolNombre) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public Rol findByRolNombre(RolNombre rolNombre) {
+        return repo.findByRolNombre(rolNombre);
     }
 
     @Override
@@ -52,7 +57,7 @@ public class RolService implements IRolService {
 
     @Override
     public void deleteById(Long id) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        repo.deleteById(id);
     }
 
 }

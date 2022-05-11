@@ -30,7 +30,6 @@ public class UsuarioService implements IUsuarioService {
     @Autowired
     private RolRepository repoRol;
 
-   
     @Override
     public List<Usuario> getAll() {
         return repo.findAll();
