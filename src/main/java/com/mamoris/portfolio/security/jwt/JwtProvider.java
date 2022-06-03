@@ -48,7 +48,8 @@ public class JwtProvider {
                 .withClaim("roles", usuarioPrincipal.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList()))
                 .sign(Algorithm.HMAC512(secret.getBytes()));
 
-        return "Bearer " + token;
+        //return "Bearer " + token;
+        return token;
     }
 
     public String getNombreUsuarioFromToken(String token) {

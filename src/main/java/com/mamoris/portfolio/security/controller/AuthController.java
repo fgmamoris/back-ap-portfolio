@@ -58,7 +58,7 @@ public class AuthController {
     JwtProvider jwtProvider;
 
     @PostMapping("/new")
-    public ResponseEntity<?> nuevo(@Valid @RequestBody Usuario nuevo, BindingResult bindingResult) {
+    public ResponseEntity<?> nuevo(@RequestBody Usuario nuevo, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return new ResponseEntity(new Mensaje("campos mal puestos o email inválido"), HttpStatus.BAD_REQUEST);
         }
@@ -82,7 +82,10 @@ public class AuthController {
             roles.add(rolService.findByRolNombre(role.getRolNombre()));
            
         }*/
-            usuario.setRoles(nuevo.getRoles().stream().map(rol -> rolService.findByRolNombre(rol.getRolNombre())).collect(Collectors.toList()));
+            for (Rol role : nuevo.getRoles()) {
+                roles.add(rolService.findByRolNombre(role.getRolNombre()));
+            }
+            //usuario.setRoles(nuevo.getRoles().stream().map(rol -> rolService.findByRolNombre(rol.getRolNombre())).collect(Collectors.toList()));
             usuarioService.save(usuario);
             System.out.println(usuario.toString());
             return new ResponseEntity(new Mensaje("usuario guardado"), HttpStatus.CREATED);
