@@ -2,8 +2,8 @@
  */
 package com.mamoris.portfolio.service;
 
-import com.mamoris.portfolio.entity.Rol;
-import com.mamoris.portfolio.repository.RolRepository;
+import com.mamoris.portfolio.security.entity.Rol;
+import com.mamoris.portfolio.security.repository.RolRepository;
 import com.mamoris.portfolio.repository.UsuarioRepository;
 import com.mamoris.portfolio.service.impl.IRolService;
 import com.mamoris.portfolio.utils.enums.RolNombre;
@@ -24,9 +24,7 @@ public class RolService implements IRolService {
     private static final Logger LOGGER = LoggerFactory.getLogger(RolService.class);
 
     @Autowired
-    private RolRepository repo;
-    @Autowired
-    private UsuarioRepository repoUsuario;
+    private RolRepository repo;    
 
     @Override
     public List<Rol> findAll() {

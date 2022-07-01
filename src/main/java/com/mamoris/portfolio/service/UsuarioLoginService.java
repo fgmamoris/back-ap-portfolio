@@ -1,8 +1,8 @@
 package com.mamoris.portfolio.service;
 
 import com.mamoris.portfolio.entity.Usuario;
-import com.mamoris.portfolio.repository.RolRepository;
-import com.mamoris.portfolio.repository.UsuarioLoginRepository;
+import com.mamoris.portfolio.security.repository.RolRepository;
+import com.mamoris.portfolio.security.repository.UsuarioLoginRepository;
 import com.mamoris.portfolio.security.dto.UsuarioLogin;
 import com.mamoris.portfolio.service.impl.IUsuarioLoginService;
 import java.util.List;
@@ -50,10 +50,7 @@ public class UsuarioLoginService implements IUsuarioLoginService {
     public boolean existsByNombreUsuario(String nombreUsuario) {
         return repo.existsByNombreUsuario(nombreUsuario);
     }
-
-    public boolean existsByEmail(String email) {
-        return repo.existsByEmail(email);
-    }
+  
 
     @Override
     public void addRoleToUser(String nombreUsuario, String rolNombre) {

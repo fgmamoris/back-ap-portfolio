@@ -4,7 +4,7 @@
  */
 package com.mamoris.portfolio.service.impl;
 
-import com.mamoris.portfolio.entity.Rol;
+import com.mamoris.portfolio.security.entity.Rol;
 import com.mamoris.portfolio.entity.Usuario;
 import com.mamoris.portfolio.utils.enums.RolNombre;
 import java.util.List;

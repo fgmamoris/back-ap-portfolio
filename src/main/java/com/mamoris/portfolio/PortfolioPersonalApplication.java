@@ -1,6 +1,6 @@
 package com.mamoris.portfolio;
 
-import com.mamoris.portfolio.entity.Rol;
+import com.mamoris.portfolio.security.entity.Rol;
 import com.mamoris.portfolio.service.RolService;
 import com.mamoris.portfolio.utils.enums.RolNombre;
 import org.springframework.boot.CommandLineRunner;

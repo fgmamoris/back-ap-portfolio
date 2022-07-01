@@ -2,9 +2,9 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package com.mamoris.portfolio.repository;
+package com.mamoris.portfolio.security.repository;
 
-import com.mamoris.portfolio.entity.Rol;
+import com.mamoris.portfolio.security.entity.Rol;
 import com.mamoris.portfolio.entity.Usuario;
 import com.mamoris.portfolio.utils.enums.RolNombre;
 import java.util.Optional;

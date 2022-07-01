@@ -1,7 +1,7 @@
 package com.mamoris.portfolio.service;
 
 import com.mamoris.portfolio.entity.Usuario;
-import com.mamoris.portfolio.repository.RolRepository;
+import com.mamoris.portfolio.security.repository.RolRepository;
 import com.mamoris.portfolio.repository.UsuarioRepository;
 import com.mamoris.portfolio.service.impl.IUsuarioService;
 import java.util.List;
@@ -44,14 +44,7 @@ public class UsuarioService implements IUsuarioService {
         repo.deleteById(id);
     }
 
-    public Usuario findByNombreUsuario(String nombreUsuario) {
-        return repo.findByNombreUsuario(nombreUsuario);
-    }
-
-    public boolean existsByNombreUsuario(String nombreUsuario) {
-        return repo.existsByNombreUsuario(nombreUsuario);
-    }
-
+   
     public boolean existsByEmail(String email) {
         return repo.existsByEmail(email);
     }

@@ -23,8 +23,6 @@ public interface IUsuarioLoginService {
 
     public boolean existsByNombreUsuario(String nombreUsuario);
 
-    public boolean existsByEmail(String email);
-
     public void addRoleToUser(String nombreUsuario, String rol);
 
 }

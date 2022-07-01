@@ -1,6 +1,6 @@
 package com.mamoris.portfolio.security.controller;
 
-import com.mamoris.portfolio.entity.Rol;
+import com.mamoris.portfolio.security.entity.Rol;
 import com.mamoris.portfolio.security.dto.JwtDto;
 import com.mamoris.portfolio.security.dto.UsuarioLogin;
 import com.mamoris.portfolio.security.jwt.JwtProvider;
@@ -9,6 +9,7 @@ import com.mamoris.portfolio.service.impl.IUsuarioLoginService;
 import com.mamoris.portfolio.utils.Mensaje;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.Set;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -64,18 +65,19 @@ public class AuthController {
         if (usuarioService.existsByEmail(nuevo.getEmail())) {
             return new ResponseEntity(new Mensaje("ese email ya existe"), HttpStatus.BAD_REQUEST);
         }*/
-            Collection<Rol> roles = new ArrayList<>();
+            Set<Rol> roles = new HashSet<>();
             /*for (Rol role : nuevo.getRoles()) {
             roles.add(rolService.findByRolNombre(role.getRolNombre()));
            
         }*/
+
             for (Rol role : nuevo.getRoles()) {
                 roles.add(rolService.findByRolNombre(role.getRolNombre()));
             }
             //usuario.setRoles(nuevo.getRoles().stream().map(rol -> rolService.findByRolNombre(rol.getRolNombre())).collect(Collectors.toList()));
-
             UsuarioLogin usuario
-                    = new UsuarioLogin(nuevo.getNombreUsuario(), passwordEncoder.encode(nuevo.getPassword()), nuevo.getRoles());
+                    = new UsuarioLogin(nuevo.getNombreUsuario(), passwordEncoder.encode(nuevo.getPassword()));
+            usuario.setRoles(roles);
             usuarioLoginService.save(usuario);
             System.out.println(usuario.toString());
             return new ResponseEntity(new Mensaje("usuario guardado"), HttpStatus.CREATED);

@@ -1,4 +1,4 @@
-package com.mamoris.portfolio.repository;
+package com.mamoris.portfolio.security.repository;
 
 
 import com.mamoris.portfolio.security.dto.UsuarioLogin;
@@ -16,5 +16,4 @@ public interface UsuarioLoginRepository extends JpaRepository<UsuarioLogin, Long
 
     boolean existsByNombreUsuario(String nombreUsuario);
 
-    boolean existsByEmail(String email);
 }

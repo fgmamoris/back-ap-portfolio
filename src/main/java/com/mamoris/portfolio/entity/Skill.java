@@ -1,5 +1,6 @@
 package com.mamoris.portfolio.entity;
 
+import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -14,6 +15,7 @@ import lombok.ToString;
  *
  * @author Federico Mamoris
  */
+@Entity
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
