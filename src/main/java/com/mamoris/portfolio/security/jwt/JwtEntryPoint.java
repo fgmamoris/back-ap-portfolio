@@ -1,6 +1,3 @@
-/*
- 
- */
 package com.mamoris.portfolio.security.jwt;
 
 

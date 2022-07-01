@@ -2,8 +2,9 @@ package com.mamoris.portfolio.service;
 
 import com.mamoris.portfolio.entity.Usuario;
 import com.mamoris.portfolio.repository.RolRepository;
-import com.mamoris.portfolio.repository.UsuarioRepository;
-import com.mamoris.portfolio.service.impl.IUsuarioService;
+import com.mamoris.portfolio.repository.UsuarioLoginRepository;
+import com.mamoris.portfolio.security.dto.UsuarioLogin;
+import com.mamoris.portfolio.service.impl.IUsuarioLoginService;
 import java.util.List;
 import java.util.Optional;
 import org.slf4j.Logger;
@@ -16,25 +17,23 @@ import org.springframework.stereotype.Service;
  * @author Federico Mamoris
  */
 @Service
-public class UsuarioService implements IUsuarioService {
+public class UsuarioLoginService implements IUsuarioLoginService {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(UsuarioService.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(UsuarioLoginService.class);
 
     @Autowired
-    private UsuarioRepository repo;
+    private UsuarioLoginRepository repo;
 
     @Autowired
     private RolRepository repoRol;
 
     @Override
-    public List<Usuario> getAll() {
+    public List<UsuarioLogin> getAll() {
         return repo.findAll();
     }
 
     @Override
-    public Usuario save(Usuario user) {
-
-        //user.setPassword(passwordEncoder.encode(user.getPassword()));
+    public UsuarioLogin save(UsuarioLogin user) {
         return repo.save(user);
     }
 
@@ -44,7 +43,7 @@ public class UsuarioService implements IUsuarioService {
         repo.deleteById(id);
     }
 
-    public Usuario findByNombreUsuario(String nombreUsuario) {
+    public UsuarioLogin findByNombreUsuario(String nombreUsuario) {
         return repo.findByNombreUsuario(nombreUsuario);
     }
 
@@ -57,8 +56,19 @@ public class UsuarioService implements IUsuarioService {
     }
 
     @Override
-    public Usuario getUsuarioById(Long id) {
+    public void addRoleToUser(String nombreUsuario, String rolNombre) {
+        UsuarioLogin usuario = repo.findByNombreUsuario(nombreUsuario);
+
+    }
+
+    @Override
+    public UsuarioLogin getUsuarioById(Long id) {
         return repo.getById(id);
+    }
+
+    @Override
+    public Optional<UsuarioLogin> getByNombreUsuario(String nombreUsuario) {
+        return repo.findById(Long.MIN_VALUE);
     }
 
 }

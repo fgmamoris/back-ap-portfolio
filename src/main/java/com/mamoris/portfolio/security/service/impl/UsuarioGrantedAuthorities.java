@@ -3,8 +3,7 @@
  */
 package com.mamoris.portfolio.security.service.impl;
 
-
-import com.mamoris.portfolio.entity.Usuario;
+import com.mamoris.portfolio.security.dto.UsuarioLogin;
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -18,26 +17,22 @@ import org.springframework.security.core.userdetails.UserDetails;
  */
 public class UsuarioGrantedAuthorities implements UserDetails {
 
-    private String nombre;
     private String nombreUsuario;
-    private String email;
     private String password;
     private Collection<? extends GrantedAuthority> authorities;
 
-    public UsuarioGrantedAuthorities(String nombre, String nombreUsuario, String email, String password, Collection<? extends GrantedAuthority> authorities) {
-        this.nombre = nombre;
+    public UsuarioGrantedAuthorities(String nombreUsuario, String password, Collection<? extends GrantedAuthority> authorities) {
         this.nombreUsuario = nombreUsuario;
-        this.email = email;
         this.password = password;
         this.authorities = authorities;
     }
 
     //Cargo el usuario con los granted authotities
-    public static UsuarioGrantedAuthorities build(Usuario usuario) {
+    public static UsuarioGrantedAuthorities build(UsuarioLogin usuario) {
         List<GrantedAuthority> authorities
                 = usuario.getRoles().stream().map(rol -> new SimpleGrantedAuthority(rol
                 .getRolNombre().name())).collect(Collectors.toList());
-        return new UsuarioGrantedAuthorities(usuario.getNombre(), usuario.getNombreUsuario(), usuario.getEmail(), usuario.getPassword(), authorities);
+        return new UsuarioGrantedAuthorities(usuario.getNombreUsuario(), usuario.getPassword(), authorities);
     }
 
     @Override
@@ -75,11 +70,4 @@ public class UsuarioGrantedAuthorities implements UserDetails {
         return true;
     }
 
-    public String getNombre() {
-        return nombre;
-    }
-
-    public String getEmail() {
-        return email;
-    }
 }

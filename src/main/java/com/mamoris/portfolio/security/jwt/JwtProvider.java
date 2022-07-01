@@ -1,5 +1,3 @@
-/*
- */
 package com.mamoris.portfolio.security.jwt;
 
 import com.auth0.jwt.JWT;
