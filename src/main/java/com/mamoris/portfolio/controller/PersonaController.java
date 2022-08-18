@@ -31,7 +31,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping("/api/person")
-@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin(origins = "http://https://ap-portfolio-fm.web.app*")
 //@CrossOrigin(origins = "http://localhost:4200", allowCredentials = "true", allowedHeaders = "*")
 public class PersonaController {
 

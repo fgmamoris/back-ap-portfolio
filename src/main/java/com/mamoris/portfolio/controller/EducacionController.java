@@ -33,7 +33,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 @RestController
 @RequestMapping("/api/education")
 @CrossOrigin(origins = "*")
-//@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin(origins = "http://https://ap-portfolio-fm.web.app*")
 public class EducacionController {
 
     private final static Logger Log = LoggerFactory.getLogger(CertificadoController.class);

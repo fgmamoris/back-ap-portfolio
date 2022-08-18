@@ -21,7 +21,6 @@ import com.mamoris.portfolio.service.PersonaService;
 import com.mamoris.portfolio.utils.Mensaje;
 import com.mamoris.portfolio.utils.Validate;
 import java.util.List;
-import static javafx.beans.binding.Bindings.concat;
 import javax.validation.Valid;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -34,8 +33,8 @@ import org.springframework.beans.factory.annotation.Autowired;
  */
 @RestController
 @RequestMapping("/api/certificate")
+@CrossOrigin(origins = "http://https://ap-portfolio-fm.web.app*")
 
-@CrossOrigin(origins = "http://localhost:4200")
 public class CertificadoController {
 
     private final static Logger Log = LoggerFactory.getLogger(CertificadoController.class);

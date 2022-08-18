@@ -5,7 +5,6 @@ package com.mamoris.portfolio.controller;
 import com.mamoris.portfolio.service.RedSocialService;
 import com.mamoris.portfolio.service.PersonaService;
 import com.mamoris.portfolio.entity.RedSocial;
-import com.mamoris.portfolio.entity.Persona;
 import com.mamoris.portfolio.utils.Mensaje;
 import com.mamoris.portfolio.utils.Validate;
 import java.util.List;
@@ -33,8 +32,8 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping("/api/socialmedia")
-@CrossOrigin(origins = "*")
 
+@CrossOrigin(origins = "http://https://ap-portfolio-fm.web.app*")
 public class RedSolcialController {
 
     private final static Logger Log = LoggerFactory.getLogger(CertificadoController.class);
