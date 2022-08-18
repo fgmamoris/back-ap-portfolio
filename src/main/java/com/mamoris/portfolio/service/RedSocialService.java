@@ -28,13 +28,13 @@ public class RedSocialService implements IRedSocialService {
     }
 
     @Override
-    public RedSocial save(RedSocial user) {
-        return repo.save(user);
+    public RedSocial save(RedSocial redSocial) {
+        return repo.save(redSocial);
     }
 
     @Override
-    public RedSocial getById(Long id) {        
-        return repo.getById(id);
+    public RedSocial getById(Long id) {
+        return repo.findById(id).get();
     }
 
     @Override
@@ -42,4 +42,8 @@ public class RedSocialService implements IRedSocialService {
         repo.deleteById(id);
     }
 
+    @Override
+    public boolean existsById(Long id) {
+        return repo.existsById(id);
+    }
 }

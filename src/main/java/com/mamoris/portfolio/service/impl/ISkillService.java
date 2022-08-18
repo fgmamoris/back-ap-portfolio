@@ -13,9 +13,10 @@ public interface ISkillService {
 
     public Skill getById(Long id);
 
-    public Skill save(Skill user);
+    public Skill save(Skill skill);
 
     public void deleteById(Long id);
 
+    public boolean existsById(Long id);
 
 }

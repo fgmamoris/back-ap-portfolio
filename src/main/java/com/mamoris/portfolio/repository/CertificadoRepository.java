@@ -11,5 +11,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface CertificadoRepository extends JpaRepository<Certificado, Long> {
 
-    
+    public boolean existsById(Long id);
 }

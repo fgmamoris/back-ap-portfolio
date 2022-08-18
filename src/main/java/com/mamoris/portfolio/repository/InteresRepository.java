@@ -9,7 +9,11 @@ import org.springframework.stereotype.Repository;
  * @author Federico Mamoris
  */
 @Repository
-public interface IntereslRepository extends JpaRepository<Interes, Long> {
+public interface InteresRepository extends JpaRepository<Interes, Long> {
 
-    
+    public boolean existsById(Long id);
+
+    public boolean existsByPersonaId(Long id);
+
+    public Interes getByPersonaId(Long id);
 }

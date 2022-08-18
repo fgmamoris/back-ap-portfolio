@@ -11,6 +11,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -26,18 +27,19 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-@Table(name = "interes")
+@Table(name = "acerca")
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-public class Interes {
+public class Acerca {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @NotNull
+    @Size(min=5, max=128)
     private String descripcion;
 
-    //@ToString.Exclude
-    //@JsonIgnoreProperties("interes")
+    //ToString.Exclude
+    //@JsonIgnoreProperties("acerca")
     @JsonBackReference
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "persona_id")

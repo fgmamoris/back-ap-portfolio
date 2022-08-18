@@ -11,11 +11,11 @@ public interface IExperienciaService {
 
     public List<Experiencia> getAll();
 
-    public Experiencia getExperienciaById(Long id);
+    public Experiencia getById(Long id);
 
-    public Experiencia save(Experiencia user);
+    public Experiencia save(Experiencia experiencia);
 
     public void deleteById(Long id);
 
-
+    public boolean existsById(Long id);
 }

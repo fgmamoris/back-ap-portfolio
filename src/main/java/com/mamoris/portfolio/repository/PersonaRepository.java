@@ -1,6 +1,6 @@
 package com.mamoris.portfolio.repository;
 
-import com.mamoris.portfolio.entity.Usuario;
+import com.mamoris.portfolio.entity.Persona;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -9,7 +9,8 @@ import org.springframework.stereotype.Repository;
  * @author Federico Mamoris
  */
 @Repository
-public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
+public interface PersonaRepository extends JpaRepository<Persona, Long> {
 
-    boolean existsByEmail(String email);
+    public boolean existsByEmail(String email);
+    public boolean existsById(Long id);
 }

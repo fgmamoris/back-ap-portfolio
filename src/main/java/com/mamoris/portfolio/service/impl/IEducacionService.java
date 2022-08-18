@@ -13,9 +13,10 @@ public interface IEducacionService {
 
     public Educacion getById(Long id);
 
-    public Educacion save(Educacion user);
+    public Educacion save(Educacion educacion);
 
     public void deleteById(Long id);
 
+    public boolean existsById(Long id);
 
 }

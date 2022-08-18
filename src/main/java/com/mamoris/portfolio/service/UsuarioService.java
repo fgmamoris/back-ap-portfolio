@@ -1,15 +1,14 @@
 package com.mamoris.portfolio.service;
 
-import com.mamoris.portfolio.entity.Usuario;
-import com.mamoris.portfolio.security.repository.RolRepository;
-import com.mamoris.portfolio.repository.UsuarioRepository;
-import com.mamoris.portfolio.service.impl.IUsuarioService;
+import com.mamoris.portfolio.security.entity.Usuario;
+import com.mamoris.portfolio.security.repository.UsuarioRepository;
 import java.util.List;
 import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import com.mamoris.portfolio.service.impl.IUsuarioService;
 
 /**
  *
@@ -23,35 +22,34 @@ public class UsuarioService implements IUsuarioService {
     @Autowired
     private UsuarioRepository repo;
 
-    @Autowired
-    private RolRepository repoRol;
-
     @Override
     public List<Usuario> getAll() {
         return repo.findAll();
     }
 
     @Override
-    public Usuario save(Usuario user) {
+    public Optional<Usuario> getUsuarioById(Long id) {
+        return repo.findById(id);
+    }
 
-        //user.setPassword(passwordEncoder.encode(user.getPassword()));
+    @Override
+    public Usuario save(Usuario user) {
         return repo.save(user);
     }
 
     @Override
     public void deleteById(Long id) {
-
         repo.deleteById(id);
     }
 
-   
-    public boolean existsByEmail(String email) {
-        return repo.existsByEmail(email);
+    @Override
+    public Optional<Usuario> getByNombreUsuario(String nombreUsuario) {
+        return repo.findByNombreUsuario(nombreUsuario);
     }
 
     @Override
-    public Usuario getUsuarioById(Long id) {
-        return repo.getById(id);
+    public boolean existsByNombreUsuario(String nombreUsuario) {
+        return repo.existsByNombreUsuario(nombreUsuario);
     }
 
 }

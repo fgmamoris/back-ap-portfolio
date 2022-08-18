@@ -28,8 +28,8 @@ public class ExperienciaService implements IExperienciaService {
     }
 
     @Override
-    public Experiencia save(Experiencia user) {
-        return repo.save(user);
+    public Experiencia save(Experiencia experiencia) {
+        return repo.save(experiencia);
     }
 
     @Override
@@ -38,8 +38,12 @@ public class ExperienciaService implements IExperienciaService {
     }
 
     @Override
-    public Experiencia getExperienciaById(Long id) {
-        return repo.getById(id);
+    public Experiencia getById(Long id) {
+        return repo.findById(id).get();
+    }
+
+    public boolean existsById(Long id) {
+        return repo.existsById(id);
     }
 
 }

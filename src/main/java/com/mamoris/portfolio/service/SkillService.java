@@ -28,13 +28,13 @@ public class SkillService implements ISkillService {
     }
 
     @Override
-    public Skill save(Skill user) {
-        return repo.save(user);
+    public Skill save(Skill skill) {
+        return repo.save(skill);
     }
 
     @Override
     public Skill getById(Long id) {
-        return repo.getById(id);
+        return repo.findById(id).get();
     }
 
     @Override
@@ -42,4 +42,8 @@ public class SkillService implements ISkillService {
         repo.deleteById(id);
     }
 
+    @Override
+    public boolean existsById(Long id) {
+        return repo.existsById(id);
+    }
 }

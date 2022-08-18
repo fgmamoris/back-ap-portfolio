@@ -1,6 +1,6 @@
 package com.mamoris.portfolio.service.impl;
 
-import com.mamoris.portfolio.entity.Skill;
+import com.mamoris.portfolio.entity.Interes;
 import java.util.List;
 
 /**
@@ -9,13 +9,18 @@ import java.util.List;
  */
 public interface IInteresService {
 
-    public List<Skill> getAll();
+    public List<Interes> getAll();
 
-    public Skill getById(Long id);
+    public Interes getById(Long id);
 
-    public Skill save(Skill user);
+    public Interes save(Interes interes);
 
     public void deleteById(Long id);
 
+    public boolean existsById(Long id);
+
+    public boolean existsByPersonaId(Long id);
+
+    public Interes getByPersonaId(Long id);
 
 }

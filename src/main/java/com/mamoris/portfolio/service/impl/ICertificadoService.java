@@ -13,9 +13,10 @@ public interface ICertificadoService {
 
     public Certificado getById(Long id);
 
-    public Certificado save(Certificado user);
+    public Certificado save(Certificado certificado);
 
     public void deleteById(Long id);
 
+    public boolean existsById(Long id);
 
 }

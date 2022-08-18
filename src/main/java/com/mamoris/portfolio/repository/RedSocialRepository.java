@@ -11,5 +11,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface RedSocialRepository extends JpaRepository<RedSocial, Long> {
 
-    
+    public boolean existsById(Long id);
 }

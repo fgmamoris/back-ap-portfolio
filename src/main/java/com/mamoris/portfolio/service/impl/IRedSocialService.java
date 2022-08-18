@@ -13,9 +13,10 @@ public interface IRedSocialService {
 
     public RedSocial getById(Long id);
 
-    public RedSocial save(RedSocial user);
+    public RedSocial save(RedSocial redSocial);
 
     public void deleteById(Long id);
 
+    public boolean existsById(Long id);
 
 }

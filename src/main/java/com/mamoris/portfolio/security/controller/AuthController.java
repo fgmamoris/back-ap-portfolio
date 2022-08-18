@@ -1,14 +1,9 @@
 package com.mamoris.portfolio.security.controller;
 
-import com.mamoris.portfolio.security.entity.Rol;
-import com.mamoris.portfolio.security.dto.JwtDto;
-import com.mamoris.portfolio.security.dto.UsuarioLogin;
-import com.mamoris.portfolio.security.jwt.JwtProvider;
-import com.mamoris.portfolio.service.impl.IRolService;
-import com.mamoris.portfolio.service.impl.IUsuarioLoginService;
+import com.mamoris.portfolio.security.entity.Usuario;
 import com.mamoris.portfolio.utils.Mensaje;
-import java.util.ArrayList;
-import java.util.Collection;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 import javax.validation.Valid;
@@ -27,14 +22,16 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import com.mamoris.portfolio.service.impl.IUsuarioService;
 
 /**
  *
  * @author Federico Mamoris
  */
 @RestController
-@RequestMapping("api/auth")
-@CrossOrigin
+@RequestMapping("/api/auth")
+//@CrossOrigin(origins = "*")
+//@CrossOrigin(origins = "http://localhost:4200")
 public class AuthController {
 
     @Autowired
@@ -44,20 +41,18 @@ public class AuthController {
     AuthenticationManager authenticationManager;
 
     @Autowired
-    IUsuarioLoginService usuarioLoginService;
+    IUsuarioService usuarioLoginService;
 
-    @Autowired
-    IRolService rolService;
-
-    @Autowired
-    JwtProvider jwtProvider;
-
+    @CrossOrigin(origins = "http://localhost:4200")
     @PostMapping("/new")
-    public ResponseEntity<?> nuevo(@RequestBody UsuarioLogin nuevo, BindingResult bindingResult) {
+    public ResponseEntity<?> nuevo(@RequestBody Usuario nuevo, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return new ResponseEntity(new Mensaje("campos mal puestos o email inválido"), HttpStatus.BAD_REQUEST);
         }
-        if (usuarioLoginService.getAll().size() == 0) {
+        if (usuarioLoginService.getAll().isEmpty()) {
+            System.out.println("************************");
+            System.out.println(nuevo.toString());
+            System.out.println("************************");
 
             /*if (usuarioService.existsByNombreUsuario(nuevo.getNombreUsuario())) {
             return new ResponseEntity(new Mensaje("ese nombre ya existe"), HttpStatus.BAD_REQUEST);
@@ -65,21 +60,17 @@ public class AuthController {
         if (usuarioService.existsByEmail(nuevo.getEmail())) {
             return new ResponseEntity(new Mensaje("ese email ya existe"), HttpStatus.BAD_REQUEST);
         }*/
-            Set<Rol> roles = new HashSet<>();
-            /*for (Rol role : nuevo.getRoles()) {
-            roles.add(rolService.findByRolNombre(role.getRolNombre()));
-           
-        }*/
-
-            for (Rol role : nuevo.getRoles()) {
-                roles.add(rolService.findByRolNombre(role.getRolNombre()));
-            }
             //usuario.setRoles(nuevo.getRoles().stream().map(rol -> rolService.findByRolNombre(rol.getRolNombre())).collect(Collectors.toList()));
-            UsuarioLogin usuario
-                    = new UsuarioLogin(nuevo.getNombreUsuario(), passwordEncoder.encode(nuevo.getPassword()));
-            usuario.setRoles(roles);
-            usuarioLoginService.save(usuario);
+            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd 'at' HH:mm:ss z");
+            Date date = new Date(System.currentTimeMillis());
+            Usuario usuario
+                    = new Usuario(nuevo.getNombreUsuario(), passwordEncoder.encode(nuevo.getPassword()));
+
+            System.out.println("************************");
             System.out.println(usuario.toString());
+            System.out.println("************************");
+
+            usuarioLoginService.save(usuario);
             return new ResponseEntity(new Mensaje("usuario guardado"), HttpStatus.CREATED);
         } else {
             return new ResponseEntity(new Mensaje("Comunicarse con el administrador del sistema"), HttpStatus.METHOD_NOT_ALLOWED);
@@ -88,16 +79,17 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<JwtDto> login(@Valid @RequestBody UsuarioLogin loginUsuario, BindingResult bindingResult) {
+    public ResponseEntity<Usuario> login(@Valid @RequestBody Usuario loginUsuario, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return new ResponseEntity(new Mensaje("campos mal puestos"), HttpStatus.BAD_REQUEST);
+        } else if (!usuarioLoginService.existsByNombreUsuario(loginUsuario.getNombreUsuario())) {
+            return new ResponseEntity(new Mensaje("Nombre de usuario incorrecto"), HttpStatus.BAD_REQUEST);
+        } else if (!passwordEncoder.matches(loginUsuario.getPassword(), usuarioLoginService.getByNombreUsuario(loginUsuario.getNombreUsuario()).get().getPassword())) {
+            return new ResponseEntity(new Mensaje("Contraseña Incorrecta"), HttpStatus.BAD_REQUEST);
         }
-        Authentication authentication
-                = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginUsuario.getNombreUsuario(), loginUsuario.getPassword()));
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-        String jwt = jwtProvider.generateToken(authentication);
-        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-        JwtDto jwtDto = new JwtDto(jwt, userDetails.getUsername(), userDetails.getAuthorities());
-        return new ResponseEntity(jwtDto, HttpStatus.OK);
+
+        Usuario usuario = new Usuario(loginUsuario.getNombreUsuario(), usuarioLoginService.getByNombreUsuario(loginUsuario.getNombreUsuario()).get().getPassword());
+        return new ResponseEntity(usuario, HttpStatus.OK);
     }
+
 }

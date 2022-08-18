@@ -1,39 +1,40 @@
 package com.mamoris.portfolio.service;
 
-import com.mamoris.portfolio.entity.Certificado;
-import com.mamoris.portfolio.repository.CertificadoRepository;
-import com.mamoris.portfolio.service.impl.ICertificadoService;
+import com.mamoris.portfolio.entity.Acerca;
+import com.mamoris.portfolio.service.impl.IAcercaService;
 import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import com.mamoris.portfolio.repository.AcercaRepository;
 
 /**
  *
  * @author Federico Mamoris
  */
 @Service
-public class CertificadoService implements ICertificadoService {
+
+public class AcercaService implements IAcercaService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(CertificadoService.class);
 
     @Autowired
-    private CertificadoRepository repo;
+    private AcercaRepository repo;
 
     @Override
-    public List<Certificado> getAll() {
+    public List<Acerca> getAll() {
         return repo.findAll();
     }
 
     @Override
-    public Certificado getById(Long id) {
-        return repo.getById(id);
+    public Acerca save(Acerca acerca) {
+        return repo.save(acerca);
     }
 
     @Override
-    public Certificado save(Certificado certificado) {
-        return repo.save(certificado);
+    public Acerca getById(Long id) {
+        return repo.findById(id).get();
     }
 
     @Override
@@ -46,4 +47,15 @@ public class CertificadoService implements ICertificadoService {
         return repo.existsById(id);
     }
 
+    @Override
+    public boolean existsByPersonaId(Long id) {
+        return repo.existsByPersonaId(id);
+
+    }
+
+    @Override
+    public Acerca getByPersonaId(Long id) {
+        return repo.getByPersonaId(id);
+
+    }
 }
