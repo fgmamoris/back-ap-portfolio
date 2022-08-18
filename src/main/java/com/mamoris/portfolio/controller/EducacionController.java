@@ -32,7 +32,7 @@ import org.springframework.beans.factory.annotation.Autowired;
  */
 @RestController
 @RequestMapping("/api/education")
-@CrossOrigin(origins = "*")
+
 @CrossOrigin(origins = "http://https://ap-portfolio-fm.web.app*")
 public class EducacionController {
 
@@ -91,7 +91,7 @@ public class EducacionController {
     }
 
     @PutMapping("/update/{id}")
-    public ResponseEntity<Educacion> update(@PathVariable("id") Long id,@Valid @RequestBody Educacion educacionDTO) {
+    public ResponseEntity<Educacion> update(@PathVariable("id") Long id, @Valid @RequestBody Educacion educacionDTO) {
         //descripcion	fecha_fin	fecha_inicio	institucion	titulo	persona_id
         if (!educacionService.existsById(id)) {
             return new ResponseEntity(new Mensaje("No existe registro"), HttpStatus.NOT_FOUND);
