@@ -46,7 +46,7 @@ public class UserDTOLoginController {
 
     }
 
-    @CrossOrigin(origins = "http://localhost:4200/")
+    @CrossOrigin(origins = "https://portfolio-fm.web.app/")
     @GetMapping("/get")
     public String test() //public User login(@RequestParam("user") String username, @RequestParam("password") String pwd) {
     {
