@@ -45,14 +45,14 @@ public class AcercaController {
     PersonaService personaService;
 
     @GetMapping("/abouts")
-    @CrossOrigin(origins = "http://localhost:4200")
+    
     @ResponseBody
     public ResponseEntity<List<Acerca>> getAll() {
         List<Acerca> list = acercaService.getAll();
         return new ResponseEntity(list, HttpStatus.OK);
     }
 
-    @CrossOrigin(origins = "http://localhost:4200")
+    
     @PostMapping("/create")
     public ResponseEntity<Acerca> create(@Valid @RequestBody Acerca acercaDTO) throws EntityNotFoundException {
         if (acercaService.getAll().isEmpty()) {

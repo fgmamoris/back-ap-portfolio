@@ -1,6 +1,7 @@
 package com.mamoris.portfolio.service.impl;
 
 import com.mamoris.portfolio.entity.Persona;
+import com.mamoris.portfolio.security.entity.UserDTOLogin;
 import com.mamoris.portfolio.security.entity.Usuario;
 import java.util.List;
 import java.util.Optional;

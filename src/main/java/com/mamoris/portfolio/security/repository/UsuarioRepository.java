@@ -1,5 +1,6 @@
 package com.mamoris.portfolio.security.repository;
 
+import com.mamoris.portfolio.security.entity.UserDTOLogin;
 import com.mamoris.portfolio.security.entity.Usuario;
 import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
