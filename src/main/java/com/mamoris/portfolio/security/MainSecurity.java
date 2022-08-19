@@ -29,11 +29,16 @@ class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers(HttpMethod.POST, "/api/jwt/userLogin").permitAll()
                 .antMatchers(HttpMethod.GET, "/api/jwt/get").permitAll()
+                .antMatchers(HttpMethod.GET, "/api/education/educations").permitAll()
+                .antMatchers(HttpMethod.GET, "/api/certificate/certificates").permitAll()
                 .anyRequest().authenticated().and()
                 .httpBasic();
 
     }
-
+    /*@Override
+    public void addCorsMappings(CorsRegistry registry) {
+        registry.addMapping("/api/**").allowedMethods("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS");
+    }
     /*@Bean
     CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration cc = new CorsConfiguration();
