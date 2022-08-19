@@ -32,29 +32,42 @@ public class JWTAuthorizationFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws ServletException, IOException {
-
+        System.out.println("PASO1");
         try {
-
             if (existeJWTToken(request, response)) {
+                System.out.println("PASO1");
                 Claims claims = validateToken(request);
                 if (claims.get("authorities") != null) {
+                    System.out.println("PASO5");
                     setUpSpringAuthentication(claims);
                 } else {
+                    System.out.println("PASO7");
                     SecurityContextHolder.clearContext();
                 }
-            } else {                
+            } else {
+                System.out.println("PASO8");
                 SecurityContextHolder.clearContext();
             }
             chain.doFilter(request, response);
         } catch (ExpiredJwtException | UnsupportedJwtException | MalformedJwtException e) {
-            response.setStatus(HttpServletResponse.SC_FORBIDDEN);
-            ((HttpServletResponse) response).sendError(HttpServletResponse.SC_FORBIDDEN, e.getMessage());
+            System.out.println("PASO6");
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            ((HttpServletResponse) response).sendError(HttpServletResponse.SC_BAD_REQUEST, e.getMessage());
+            chain.doFilter(request, response);
             return;
         }
     }
 
     private Claims validateToken(HttpServletRequest request) {
-        String jwtToken = request.getHeader(HEADER).replace(PREFIX, "");
+        String jwtToken;
+        jwtToken = request.getHeader(HEADER).replace(PREFIX, "");
+        try {
+            System.out.println("PASO3");
+            Jwts.parser().setSigningKey(SECRET.getBytes()).parseClaimsJws(jwtToken).getBody();
+        } catch (Exception e) {
+            System.out.println("PASO4");
+            throw new MalformedJwtException(e.getMessage());
+        }
         return Jwts.parser().setSigningKey(SECRET.getBytes()).parseClaimsJws(jwtToken).getBody();
     }
 

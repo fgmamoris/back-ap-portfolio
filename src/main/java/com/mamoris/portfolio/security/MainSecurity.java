@@ -35,6 +35,7 @@ class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.GET, "/api/certificate/**").permitAll()
                 .antMatchers(HttpMethod.GET, "/api/education/**").permitAll()
                 .antMatchers(HttpMethod.GET, "/api/experience/**").permitAll()
+                .antMatchers(HttpMethod.GET, "/api/interest/**").permitAll()
                 .antMatchers(HttpMethod.GET, "/api/socialmedia/**").permitAll()
                 .antMatchers(HttpMethod.GET, "/api/skill/**").permitAll()
                 .antMatchers(HttpMethod.POST, "/api/auth/**").permitAll()

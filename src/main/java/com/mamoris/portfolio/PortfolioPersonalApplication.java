@@ -24,6 +24,10 @@ public class PortfolioPersonalApplication {
             public void addCorsMappings(CorsRegistry registry) {
                 registry.addMapping("/api/**").allowedOrigins("https://portfolio-fm.web.app/");
                 registry.addMapping("/api/**").allowedOrigins("*");
+                registry.addMapping("/api/auth/**").allowedOrigins("*").
+                        allowedMethods("GET", "POST");
+                registry.addMapping("/api/edutacion/**").allowedOrigins("*").allowedMethods("GET", "POST");
+
             }
         };
     }
