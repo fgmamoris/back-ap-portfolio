@@ -28,7 +28,7 @@ class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .cors().and().csrf().disable()
                 //.csrf().disable()
                 .addFilterAfter(new JWTAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class)
-                .authorizeRequests()
+                .authorizeRequests()                
                 .antMatchers(HttpMethod.GET, "/api/person/**").permitAll()
                 .antMatchers(HttpMethod.GET, "/api/about/**").permitAll()
                 .antMatchers(HttpMethod.GET, "/api/certificates/**").permitAll()
