@@ -32,7 +32,7 @@ class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.GET, "/api/education/educations").permitAll()
                 .antMatchers(HttpMethod.GET, "/api/certificate/certificates").permitAll()
                 .anyRequest().authenticated().and()
-                .httpBasic();
+                .httpBasic();  
 
     }
     /*@Override
