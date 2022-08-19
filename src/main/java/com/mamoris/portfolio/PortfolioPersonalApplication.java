@@ -22,7 +22,7 @@ public class PortfolioPersonalApplication {
         return new WebMvcConfigurer() {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
-                registry.addMapping("/api/**").allowedOrigins("https://portfolio-fm.web.app/");
+                registry.addMapping("/api/auth").allowedOrigins("https://portfolio-fm.web.app/");
             }
         };
     }
