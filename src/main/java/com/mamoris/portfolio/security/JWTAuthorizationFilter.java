@@ -36,7 +36,7 @@ public class JWTAuthorizationFilter extends OncePerRequestFilter {
         try {
             HttpServletResponse response = (HttpServletResponse) res;
             response.setHeader("Access-Control-Allow-Origin",
-                    "http://localhost:4200");
+                    "https://portfolio-fm.firebaseapp.com");
             response.setHeader("Access-Control-Allow-Methods", "POST, GET");
             response.setHeader("Access-Control-Max-Age", "3600");
             response.setHeader("Access-Control-Allow-Headers",
