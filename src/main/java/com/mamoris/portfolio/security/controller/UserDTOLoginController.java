@@ -38,15 +38,9 @@ public class UserDTOLoginController {
 
     public UserDTOLogin login(@RequestBody UserDTOLogin userDTOLogin) //public User login(@RequestParam("user") String username, @RequestParam("password") String pwd) {
     {
-        System.out.println("**************");
-        System.out.println(userDTOLogin);
-        System.out.println("**************");
-
         String token = getJWTToken(userDTOLogin.getNombreUsuario());
         UserDTOLogin user = new UserDTOLogin();
-
         user.setNombreUsuario(userDTOLogin.getNombreUsuario());
-
         user.setToken(token);
         return user;
 
@@ -56,10 +50,6 @@ public class UserDTOLoginController {
     @GetMapping("/get")
     public String test() //public User login(@RequestParam("user") String username, @RequestParam("password") String pwd) {
     {
-        System.out.println("**************");
-        System.out.println("ENTRO ACA");
-        System.out.println("**************");
-
         return "Ok";
 
     }

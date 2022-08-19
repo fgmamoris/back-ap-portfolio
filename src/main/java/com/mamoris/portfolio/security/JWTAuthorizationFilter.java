@@ -31,16 +31,10 @@ public class JWTAuthorizationFilter extends OncePerRequestFilter {
     private final String SECRET = "mySecretKey";
 
     @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse res, FilterChain chain) throws ServletException, IOException {
+    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws ServletException, IOException {
 
         try {
-            HttpServletResponse response = (HttpServletResponse) res;
-            response.setHeader("Access-Control-Allow-Origin",
-                    "https://portfolio-fm.web.app");
-            response.setHeader("Access-Control-Allow-Methods", "POST, GET");
-            response.setHeader("Access-Control-Max-Age", "3600");
-            response.setHeader("Access-Control-Allow-Headers",
-                    "Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
+
             if (existeJWTToken(request, response)) {
                 Claims claims = validateToken(request);
                 if (claims.get("authorities") != null) {
@@ -49,13 +43,12 @@ public class JWTAuthorizationFilter extends OncePerRequestFilter {
                     SecurityContextHolder.clearContext();
                 }
             } else {
-                System.out.println("ELSE");
                 SecurityContextHolder.clearContext();
             }
-            chain.doFilter(request, res);
+            chain.doFilter(request, response);
         } catch (ExpiredJwtException | UnsupportedJwtException | MalformedJwtException e) {
-            res.setStatus(HttpServletResponse.SC_FORBIDDEN);
-            ((HttpServletResponse) res).sendError(HttpServletResponse.SC_FORBIDDEN, e.getMessage());
+            response.setStatus(HttpServletResponse.SC_FORBIDDEN);
+            ((HttpServletResponse) response).sendError(HttpServletResponse.SC_FORBIDDEN, e.getMessage());
             return;
         }
     }

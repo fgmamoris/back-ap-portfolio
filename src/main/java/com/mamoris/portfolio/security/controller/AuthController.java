@@ -71,6 +71,7 @@ public class AuthController {
 
     }
 
+    @CrossOrigin(origins = "https://portfolio-fm.web.app/")
     @PostMapping("/login")
     public ResponseEntity<UserDTOLogin> login(@Valid @RequestBody Usuario loginUsuario, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {

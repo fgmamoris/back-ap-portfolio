@@ -23,36 +23,13 @@ class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.cors().and().
-                csrf().disable()
+        http.csrf().disable()
                 .addFilterAfter(new JWTAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class)
                 .authorizeRequests()
-                .antMatchers(HttpMethod.POST, "/api/jwt/userLogin").permitAll()
-                .antMatchers(HttpMethod.POST, "/api/auth/login").permitAll()
-                .antMatchers(HttpMethod.POST, "/api/jwt/userLogin").permitAll()
-                .antMatchers(HttpMethod.GET, "/api/jwt/get").permitAll()
-                .antMatchers(HttpMethod.GET, "/api/education/educations").permitAll()
-                .antMatchers(HttpMethod.GET, "/api/certificate/certificates").permitAll()
-                .anyRequest().authenticated().and()
-                .httpBasic();  
+                .antMatchers(HttpMethod.POST, "/user").permitAll()
+                .antMatchers(HttpMethod.POST, "/api/**").permitAll()
+                .anyRequest().authenticated();
 
     }
-    /*@Override
-    public void addCorsMappings(CorsRegistry registry) {
-        registry.addMapping("/api/**").allowedMethods("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS");
-    }
-    /*@Bean
-    CorsConfigurationSource corsConfigurationSource() {
-        CorsConfiguration cc = new CorsConfiguration();
-        cc.setAllowedHeaders(Arrays.asList("Origin,Accept", "X-Requested-With", "Content-Type", "Access-Control-Request-Method", "Access-Control-Request-Headers", "Authorization"));
-        cc.setExposedHeaders(Arrays.asList("Access-Control-Allow-Origin", "Access-Control-Allow-Credentials"));
-        cc.setAllowedOrigins(Arrays.asList("http://localhost:4200"));
-        cc.setAllowedMethods(Arrays.asList("GET", "POST", "OPTIONS", "PUT", "PATCH"));
-        cc.addAllowedOrigin("http://localhost:4200");
-        cc.setMaxAge(Duration.ZERO);
-        cc.setAllowCredentials(Boolean.TRUE);
-        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", cc);
-        return source;
-    }*/
+
 }
