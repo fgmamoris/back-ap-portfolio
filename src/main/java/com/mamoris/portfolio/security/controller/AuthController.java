@@ -27,7 +27,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
  */
 @RestController
 @RequestMapping("/api/auth")
-@CrossOrigin(origins = "https://portfolio-fm.firebaseapp.com")
+@CrossOrigin(origins = "https://portfolio-fm.web.app/")
 public class AuthController {
 
     @Bean

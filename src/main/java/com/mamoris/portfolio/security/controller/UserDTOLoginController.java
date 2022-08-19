@@ -29,7 +29,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping("/api/jwt")
-@CrossOrigin(origins = "https://portfolio-fm.firebaseapp.com")
+@CrossOrigin(origins = "https://portfolio-fm.web.app/")
 public class UserDTOLoginController {
 
     private final static Logger Log = LoggerFactory.getLogger(CertificadoController.class);
