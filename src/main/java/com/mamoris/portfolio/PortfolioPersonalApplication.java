@@ -17,4 +17,13 @@ public class PortfolioPersonalApplication {
         SpringApplication.run(PortfolioPersonalApplication.class, args);
     }
 
+    @Bean
+    public WebMvcConfigurer corsConfigurer() {
+        return new WebMvcConfigurer() {
+            @Override
+            public void addCorsMappings(CorsRegistry registry) {
+                registry.addMapping("/api/**").allowedOrigins("https://portfolio-fm.web.app/");
+            }
+        };
+    }
 }
