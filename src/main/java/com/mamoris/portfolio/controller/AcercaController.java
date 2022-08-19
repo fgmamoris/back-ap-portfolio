@@ -33,7 +33,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api/about")
 //@CrossOrigin(origins = "*")
-@CrossOrigin(origins = "http://https://ap-portfolio-fm.web.app*")
+@CrossOrigin(origins = "https://portfolio-fm.firebaseapp.com/")
 public class AcercaController {
 
     private final static Logger Log = LoggerFactory.getLogger(AcercaController.class);
@@ -97,7 +97,7 @@ public class AcercaController {
     }
 
     @PutMapping("/update/{id}")
-    public ResponseEntity<Acerca> update(@PathVariable("id") Long id,@Valid @RequestBody Acerca acercaDTO) {
+    public ResponseEntity<Acerca> update(@PathVariable("id") Long id, @Valid @RequestBody Acerca acercaDTO) {
         if (acercaService.getAll().size() == 1) {
             if (StringUtils.isBlank(acercaDTO.getDescripcion())) {
                 return new ResponseEntity(new Mensaje("La descripción es obligatoria"), HttpStatus.BAD_REQUEST);
