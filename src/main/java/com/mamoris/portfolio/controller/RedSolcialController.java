@@ -33,7 +33,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api/socialmedia")
 
-@CrossOrigin(origins = "http://https://ap-portfolio-fm.web.app*")
+@CrossOrigin(origins = "https://portfolio-fm.firebaseapp.com")
 public class RedSolcialController {
 
     private final static Logger Log = LoggerFactory.getLogger(CertificadoController.class);

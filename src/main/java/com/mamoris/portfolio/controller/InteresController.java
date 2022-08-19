@@ -32,7 +32,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping("/api/interest")
-@CrossOrigin(origins = "http://https://ap-portfolio-fm.web.app*")
+@CrossOrigin(origins = "https://portfolio-fm.firebaseapp.com")
 //@CrossOrigin(origins = "http://localhost:4200")
 public class InteresController {
 

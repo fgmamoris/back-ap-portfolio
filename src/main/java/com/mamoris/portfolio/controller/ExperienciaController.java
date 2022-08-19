@@ -33,7 +33,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 @RestController
 @RequestMapping("/api/experience")
 //@CrossOrigin(origins="http://localhost:4200")
-@CrossOrigin(origins = "http://https://ap-portfolio-fm.web.app*")
+@CrossOrigin(origins = "https://portfolio-fm.firebaseapp.com")
 public class ExperienciaController {
 
     private final static Logger Log = LoggerFactory.getLogger(CertificadoController.class);

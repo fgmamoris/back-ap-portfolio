@@ -33,8 +33,7 @@ import org.springframework.beans.factory.annotation.Autowired;
  */
 @RestController
 @RequestMapping("/api/certificate")
-@CrossOrigin(origins = "http://https://ap-portfolio-fm.web.app*")
-
+@CrossOrigin(origins = "https://portfolio-fm.firebaseapp.com")
 public class CertificadoController {
 
     private final static Logger Log = LoggerFactory.getLogger(CertificadoController.class);

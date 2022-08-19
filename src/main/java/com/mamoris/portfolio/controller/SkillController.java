@@ -34,7 +34,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api/skill")
 
-@CrossOrigin(origins = "http://https://ap-portfolio-fm.web.app*")
+@CrossOrigin(origins = "https://portfolio-fm.firebaseapp.com")
 public class SkillController {
 
     private final static Logger Log = LoggerFactory.getLogger(CertificadoController.class);
