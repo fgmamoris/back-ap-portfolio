@@ -38,11 +38,11 @@ public class UserDTOLoginController {
 
     public UserDTOLogin login(@RequestBody UserDTOLogin userDTOLogin) //public User login(@RequestParam("user") String username, @RequestParam("password") String pwd) {
     {
-        String token = getJWTToken(userDTOLogin.getNombreUsuario());
+        /*String token = getJWTToken(userDTOLogin.getNombreUsuario());
         UserDTOLogin user = new UserDTOLogin();
         user.setNombreUsuario(userDTOLogin.getNombreUsuario());
-        user.setToken(token);
-        return user;
+        user.setToken(token);*/
+        return userDTOLogin;
 
     }
 
@@ -52,27 +52,6 @@ public class UserDTOLoginController {
     {
         return "Ok";
 
-    }
-
-    private String getJWTToken(String username) {
-        String secretKey = "mySecretKey";
-        List<GrantedAuthority> grantedAuthorities = AuthorityUtils
-                .commaSeparatedStringToAuthorityList("ROLE_USER");
-
-        String token = Jwts
-                .builder()
-                .setId("softtekJWT")
-                .setSubject(username)
-                .claim("authorities",
-                        grantedAuthorities.stream()
-                                .map(GrantedAuthority::getAuthority)
-                                .collect(Collectors.toList()))
-                .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis() + 600000))
-                .signWith(SignatureAlgorithm.HS512,
-                        secretKey.getBytes()).compact();
-
-        return "Bearer " + token;
     }
 
 }

@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.mamoris.portfolio.service.impl.IUsuarioService;
+import com.mamoris.portfolio.utils.GenerateToken;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
@@ -80,9 +81,9 @@ public class AuthController {
         } else if (!passwordEncoder().matches(loginUsuario.getPassword(), usuarioLoginService.getByNombreUsuario(loginUsuario.getNombreUsuario()).get().getPassword())) {
             return new ResponseEntity(new Mensaje("Contraseña Incorrecta"), HttpStatus.BAD_REQUEST);
         }
-
-        Usuario usuario = new Usuario(loginUsuario.getNombreUsuario(), usuarioLoginService.getByNombreUsuario(loginUsuario.getNombreUsuario()).get().getPassword());
-        return new ResponseEntity(usuario, HttpStatus.OK);
+        Usuario usuario = usuarioLoginService.getByNombreUsuario(loginUsuario.getNombreUsuario()).get();
+        UserDTOLogin usuarioDTO = new UserDTOLogin(usuario.getId(), loginUsuario.getNombreUsuario(), GenerateToken.getJWTToken(loginUsuario.getNombreUsuario()));
+        return new ResponseEntity(usuarioDTO, HttpStatus.OK);
     }
 
 }

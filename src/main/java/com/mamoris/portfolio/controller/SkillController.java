@@ -56,9 +56,10 @@ public class SkillController {
     public ResponseEntity<Skill> create(@Valid @RequestBody Skill skillDTO) {
         if (StringUtils.isBlank(skillDTO.getNombreIcono())) {
             return new ResponseEntity(new Mensaje("El nombreIcono es obligatorio"), HttpStatus.BAD_REQUEST);
-        } else if (!Validate.validateIcon(skillDTO.getNombreIcono())) {
-            return new ResponseEntity(new Mensaje("El nombreIcono contiene un formato incorrecto"), HttpStatus.BAD_REQUEST);
         }
+        /*else if (!Validate.validateIcon(skillDTO.getNombreIcono())) {
+            return new ResponseEntity(new Mensaje("El nombreIcono contiene un formato incorrecto"), HttpStatus.BAD_REQUEST);
+        }*/
         if (skillDTO.getPersona() == null) {
             return new ResponseEntity(new Mensaje("El objeto persona es obligatorio"), HttpStatus.BAD_REQUEST);
         } else if (skillDTO.getPersona().getId() == null) {
@@ -87,9 +88,10 @@ public class SkillController {
     public ResponseEntity<Skill> update(@PathVariable("id") Long id, @Valid @RequestBody Skill skillDTO) {
         if (StringUtils.isBlank(skillDTO.getNombreIcono())) {
             return new ResponseEntity(new Mensaje("El nombreIcono es obligatorio"), HttpStatus.BAD_REQUEST);
-        } else if (!Validate.validateIcon(skillDTO.getNombreIcono())) {
-            return new ResponseEntity(new Mensaje("El nombreIcono contiene un formato incorrecto"), HttpStatus.BAD_REQUEST);
         }
+        /*else if (!Validate.validateIcon(skillDTO.getNombreIcono())) {
+            return new ResponseEntity(new Mensaje("El nombreIcono contiene un formato incorrecto"), HttpStatus.BAD_REQUEST);
+        }*/
         if (!skillService.existsById(id)) {
             return new ResponseEntity(new Mensaje("No existe registro con el parametro id ingresado"), HttpStatus.NOT_FOUND);
         }

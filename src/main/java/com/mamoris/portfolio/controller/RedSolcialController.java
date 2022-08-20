@@ -55,9 +55,10 @@ public class RedSolcialController {
     public ResponseEntity<RedSocial> create(@Valid @RequestBody RedSocial redSocialDTO) {
         if (StringUtils.isBlank(redSocialDTO.getNombreIcono())) {
             return new ResponseEntity(new Mensaje("El nombreIcono es obligatorio"), HttpStatus.BAD_REQUEST);
-        } else if (!Validate.validateIcon(redSocialDTO.getNombreIcono())) {
-            return new ResponseEntity(new Mensaje("Dirección de correo electrónico con formato incorrecto"), HttpStatus.BAD_REQUEST);
         }
+        /*else if (!Validate.validateIcon(redSocialDTO.getNombreIcono())) {
+            return new ResponseEntity(new Mensaje("Dirección de correo electrónico con formato incorrecto"), HttpStatus.BAD_REQUEST);
+        }*/
         if (StringUtils.isBlank(redSocialDTO.getUrlRedSocial())) {
             return new ResponseEntity(new Mensaje("La urlRedSocial es obligatoria"), HttpStatus.BAD_REQUEST);
         } else if (!Validate.validateURL(redSocialDTO.getUrlRedSocial())) {
@@ -95,9 +96,10 @@ public class RedSolcialController {
     public ResponseEntity<RedSocial> update(@PathVariable("id") Long id, @Valid @RequestBody RedSocial redSocialDTO) {
         if (StringUtils.isBlank(redSocialDTO.getNombreIcono())) {
             return new ResponseEntity(new Mensaje("El nombreIcono es obligatorio"), HttpStatus.BAD_REQUEST);
-        } else if (!Validate.validateIcon(redSocialDTO.getNombreIcono())) {
-            return new ResponseEntity(new Mensaje("El nombreIcono contiene un formato incorrecto"), HttpStatus.BAD_REQUEST);
         }
+        /*else if (!Validate.validateIcon(redSocialDTO.getNombreIcono())) {
+            return new ResponseEntity(new Mensaje("El nombreIcono contiene un formato incorrecto"), HttpStatus.BAD_REQUEST);
+        }*/
         if (StringUtils.isBlank(redSocialDTO.getUrlRedSocial())) {
             return new ResponseEntity(new Mensaje("La urlRedSocial es obligatoria"), HttpStatus.BAD_REQUEST);
         } else if (!Validate.validateURL(redSocialDTO.getUrlRedSocial())) {

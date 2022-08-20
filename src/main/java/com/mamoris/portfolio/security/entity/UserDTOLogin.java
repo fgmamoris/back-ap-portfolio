@@ -21,10 +21,10 @@ import lombok.ToString;
 public class UserDTOLogin {
 
     @NotNull
-    private String nombreUsuario;
+    private Long id;
 
     @NotNull
-    private String password;
+    private String nombreUsuario;
 
     @NotNull
     private String token;

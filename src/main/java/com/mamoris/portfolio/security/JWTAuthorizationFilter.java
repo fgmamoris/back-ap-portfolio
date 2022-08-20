@@ -9,6 +9,7 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.UnsupportedJwtException;
 import java.io.IOException;
+import java.nio.file.AccessDeniedException;
 import java.util.List;
 import java.util.stream.Collectors;
 import javax.servlet.FilterChain;
@@ -32,7 +33,6 @@ public class JWTAuthorizationFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws ServletException, IOException {
-        System.out.println("PASO1");
         try {
             if (existeJWTToken(request, response)) {
                 System.out.println("PASO1");
@@ -45,15 +45,16 @@ public class JWTAuthorizationFilter extends OncePerRequestFilter {
                     SecurityContextHolder.clearContext();
                 }
             } else {
-                System.out.println("PASO8");
                 SecurityContextHolder.clearContext();
             }
             chain.doFilter(request, response);
-        } catch (ExpiredJwtException | UnsupportedJwtException | MalformedJwtException e) {
+        } catch (ExpiredJwtException | UnsupportedJwtException | MalformedJwtException | AccessDeniedException e) {
             System.out.println("PASO6");
-            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-            ((HttpServletResponse) response).sendError(HttpServletResponse.SC_BAD_REQUEST, e.getMessage());
-            chain.doFilter(request, response);
+            //response.setStatus(HttpServletResponse.SC_CONFLICT);
+            ((HttpServletResponse) response).sendError(HttpServletResponse.SC_FORBIDDEN, e.getMessage());
+            System.out.println("PASO7");
+            System.out.println(e.getMessage());
+            //chain.doFilter(request, response);
             return;
         }
     }
@@ -67,7 +68,7 @@ public class JWTAuthorizationFilter extends OncePerRequestFilter {
         } catch (Exception e) {
             System.out.println("PASO4");
             throw new MalformedJwtException(e.getMessage());
-        }
+        }  
         return Jwts.parser().setSigningKey(SECRET.getBytes()).parseClaimsJws(jwtToken).getBody();
     }
 
