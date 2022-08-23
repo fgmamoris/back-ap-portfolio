@@ -20,6 +20,8 @@ import com.mamoris.portfolio.service.CertificadoService;
 import com.mamoris.portfolio.service.PersonaService;
 import com.mamoris.portfolio.utils.Mensaje;
 import com.mamoris.portfolio.utils.Validate;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import javax.validation.Valid;
 import org.apache.commons.lang3.StringUtils;
@@ -58,11 +60,6 @@ public class CertificadoController {
             return new ResponseEntity(new Mensaje("El nombreCurso obligatorio"), HttpStatus.BAD_REQUEST);
         }
 
-        if (certificadoDTO.getFecha() == null) {
-            return new ResponseEntity(new Mensaje("La fechaFinalizacion de finalización es obligatoria"), HttpStatus.BAD_REQUEST);
-        } else if (StringUtils.isBlank(certificadoDTO.getFecha().toString())) {
-            return new ResponseEntity(new Mensaje("La fechaFinalizacion de finalización es obligatoria"), HttpStatus.BAD_REQUEST);
-        }
         if (certificadoDTO.getPersona() == null) {
             return new ResponseEntity(new Mensaje("El objeto persona es obligatorio"), HttpStatus.BAD_REQUEST);
         } else if (certificadoDTO.getPersona().getId() == null) {
@@ -72,11 +69,20 @@ public class CertificadoController {
         } else if (!personaService.existsById(certificadoDTO.getPersona().getId())) {
             return new ResponseEntity(new Mensaje("No existe registro de persona con el parametro id"), HttpStatus.NOT_FOUND);
         }
-        if (!certificadoDTO.getUrlCertificado().toLowerCase().startsWith("http://")) {
+        if (!certificadoDTO.getUrlCertificado().toLowerCase().startsWith("http://") && !certificadoDTO.getUrlCertificado().isEmpty()) {
             certificadoDTO.setUrlCertificado("http://" + certificadoDTO.getUrlCertificado().toLowerCase());
         } else {
             certificadoDTO.setUrlCertificado(certificadoDTO.getUrlCertificado().toLowerCase());
         }
+        SimpleDateFormat ft = new SimpleDateFormat("dd-MM-YYYY");
+        Date excelDate = null;
+        try {
+            excelDate = ft.parse(certificadoDTO.getFecha().toString());
+
+        } catch (Exception ae) {
+            return new ResponseEntity(new Mensaje("Formato de fecha incorrecto, utilizar dd-mm-aaaa"), HttpStatus.BAD_REQUEST);
+        }
+
         Certificado certificado = certificadoService.save(certificadoDTO);
         return new ResponseEntity<Certificado>(certificado, HttpStatus.CREATED);
     }
@@ -109,7 +115,7 @@ public class CertificadoController {
         }
         Certificado certificadoUpdated = certificadoService.getById(id);
         certificadoUpdated.setNombreCurso(certificadoDTO.getNombreCurso());
-        if (!certificadoDTO.getUrlCertificado().toLowerCase().startsWith("http://")) {
+        if (!certificadoDTO.getUrlCertificado().toLowerCase().startsWith("http://") && !certificadoDTO.getUrlCertificado().isEmpty()) {
             certificadoUpdated.setUrlCertificado("http://" + certificadoDTO.getUrlCertificado().toLowerCase());
         } else {
             certificadoUpdated.setUrlCertificado(certificadoDTO.getUrlCertificado().toLowerCase());
