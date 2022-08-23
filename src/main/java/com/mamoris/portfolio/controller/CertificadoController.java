@@ -21,6 +21,8 @@ import com.mamoris.portfolio.service.PersonaService;
 import com.mamoris.portfolio.utils.Mensaje;
 import com.mamoris.portfolio.utils.Validate;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.List;
 import javax.validation.Valid;
@@ -56,6 +58,7 @@ public class CertificadoController {
     //@PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/create")
     public ResponseEntity<Certificado> create(@Valid @RequestBody Certificado certificadoDTO) {
+
         if (StringUtils.isBlank(certificadoDTO.getNombreCurso())) {
             return new ResponseEntity(new Mensaje("El nombreCurso obligatorio"), HttpStatus.BAD_REQUEST);
         }
@@ -69,18 +72,11 @@ public class CertificadoController {
         } else if (!personaService.existsById(certificadoDTO.getPersona().getId())) {
             return new ResponseEntity(new Mensaje("No existe registro de persona con el parametro id"), HttpStatus.NOT_FOUND);
         }
-        if (!certificadoDTO.getUrlCertificado().toLowerCase().startsWith("http://") && !certificadoDTO.getUrlCertificado().isEmpty()) {
-            certificadoDTO.setUrlCertificado("http://" + certificadoDTO.getUrlCertificado().toLowerCase());
+
+        if ((!certificadoDTO.getUrlCertificado().toLowerCase().startsWith("http://") && !certificadoDTO.getUrlCertificado().toLowerCase().startsWith("https://")) && !certificadoDTO.getUrlCertificado().isEmpty()) {
+            certificadoDTO.setUrlCertificado("https://" + certificadoDTO.getUrlCertificado().toLowerCase());
         } else {
             certificadoDTO.setUrlCertificado(certificadoDTO.getUrlCertificado().toLowerCase());
-        }
-        SimpleDateFormat ft = new SimpleDateFormat("dd-MM-YYYY");
-        Date excelDate = null;
-        try {
-            excelDate = ft.parse(certificadoDTO.getFecha().toString());
-
-        } catch (Exception ae) {
-            return new ResponseEntity(new Mensaje("Formato de fecha incorrecto, utilizar dd-mm-aaaa"), HttpStatus.BAD_REQUEST);
         }
 
         Certificado certificado = certificadoService.save(certificadoDTO);
@@ -99,6 +95,7 @@ public class CertificadoController {
 
     @PutMapping("/update/{id}")
     public ResponseEntity<Certificado> update(@PathVariable("id") Long id, @Valid @RequestBody Certificado certificadoDTO) {
+
         if (!certificadoService.existsById(id)) {
             return new ResponseEntity(new Mensaje("No existe registro"), HttpStatus.NOT_FOUND);
         }
@@ -108,23 +105,16 @@ public class CertificadoController {
         if (!certificadoService.existsById(id)) {
             return new ResponseEntity(new Mensaje("No existe registro"), HttpStatus.NOT_FOUND);
         }
+
         Certificado certificadoUpdated = certificadoService.getById(id);
         certificadoUpdated.setNombreCurso(certificadoDTO.getNombreCurso());
-        if (!certificadoDTO.getUrlCertificado().toLowerCase().startsWith("http://") && !certificadoDTO.getUrlCertificado().isEmpty()) {
-            certificadoUpdated.setUrlCertificado("http://" + certificadoDTO.getUrlCertificado().toLowerCase());
+
+        if ((!certificadoDTO.getUrlCertificado().toLowerCase().startsWith("http://") && !certificadoDTO.getUrlCertificado().toLowerCase().startsWith("https://")) && !certificadoDTO.getUrlCertificado().isEmpty()) {
+            certificadoDTO.setUrlCertificado("https://" + certificadoDTO.getUrlCertificado().toLowerCase());
+
         } else {
             certificadoUpdated.setUrlCertificado(certificadoDTO.getUrlCertificado().toLowerCase());
         }
-        SimpleDateFormat ft = new SimpleDateFormat("aaaa-MM-dd");
-        Date excelDate = null;
-        try {
-            excelDate = ft.parse(certificadoDTO.getFecha().toString());
-
-        } catch (Exception ae) {
-            return new ResponseEntity(new Mensaje("Formato de fecha incorrecto, utilizar aaaa-mm-dd"), HttpStatus.BAD_REQUEST);
-        }
-
-        certificadoUpdated.setFecha(excelDate);
         certificadoUpdated = certificadoService.save(certificadoUpdated);
         return new ResponseEntity(certificadoUpdated, HttpStatus.OK);
     }

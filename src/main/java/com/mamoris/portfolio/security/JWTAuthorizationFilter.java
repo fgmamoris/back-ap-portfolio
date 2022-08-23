@@ -3,6 +3,9 @@
  */
 package com.mamoris.portfolio.security;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.mamoris.portfolio.utils.ErrorHandling;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
@@ -16,6 +19,7 @@ import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -35,13 +39,10 @@ public class JWTAuthorizationFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws ServletException, IOException {
         try {
             if (existeJWTToken(request, response)) {
-                
                 Claims claims = validateToken(request);
-                if (claims.get("authorities") != null) {
-                
+                if (claims.get("authorities") != null) {                    
                     setUpSpringAuthentication(claims);
                 } else {
-                
                     SecurityContextHolder.clearContext();
                 }
             } else {
@@ -49,13 +50,11 @@ public class JWTAuthorizationFilter extends OncePerRequestFilter {
             }
             chain.doFilter(request, response);
         } catch (ExpiredJwtException | UnsupportedJwtException | MalformedJwtException | AccessDeniedException e) {
-            
-            //response.setStatus(HttpServletResponse.SC_CONFLICT);
-            ((HttpServletResponse) response).sendError(HttpServletResponse.SC_FORBIDDEN, e.getMessage());
-            
-            System.out.println(e.getMessage());
-            //chain.doFilter(request, response);
-            return;
+            ErrorHandling error;
+            error = new ErrorHandling(HttpStatus.BAD_REQUEST, e.getMessage());
+            response.setStatus(HttpStatus.BAD_REQUEST.value());
+            response.getWriter().write(convertObjectToJson(error));
+            //return;
         }
     }
 
@@ -63,12 +62,10 @@ public class JWTAuthorizationFilter extends OncePerRequestFilter {
         String jwtToken;
         jwtToken = request.getHeader(HEADER).replace(PREFIX, "");
         try {
-            
             Jwts.parser().setSigningKey(SECRET.getBytes()).parseClaimsJws(jwtToken).getBody();
         } catch (Exception e) {
-            
             throw new MalformedJwtException(e.getMessage());
-        }  
+        }
         return Jwts.parser().setSigningKey(SECRET.getBytes()).parseClaimsJws(jwtToken).getBody();
     }
 
@@ -93,6 +90,14 @@ public class JWTAuthorizationFilter extends OncePerRequestFilter {
             return false;
         }
         return true;
+    }
+
+    public String convertObjectToJson(Object object) throws JsonProcessingException {
+        if (object == null) {
+            return null;
+        }
+        ObjectMapper mapper = new ObjectMapper();
+        return mapper.writeValueAsString(object);
     }
 
 }

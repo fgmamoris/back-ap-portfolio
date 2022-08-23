@@ -1,6 +1,7 @@
 package com.mamoris.portfolio.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.util.Date;
 import javax.persistence.Entity;
@@ -39,6 +40,7 @@ public class Certificado {
     private String nombreCurso;
     private String urlCertificado;
     @NotNull
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private Date fecha;
 
     //@ToString.Exclude

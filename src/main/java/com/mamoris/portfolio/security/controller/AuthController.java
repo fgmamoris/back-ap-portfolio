@@ -82,6 +82,7 @@ public class AuthController {
             return new ResponseEntity(new Mensaje("Contraseña Incorrecta"), HttpStatus.BAD_REQUEST);
         }
         Usuario usuario = usuarioLoginService.getByNombreUsuario(loginUsuario.getNombreUsuario()).get();
+        System.out.println(usuario);
         UserDTOLogin usuarioDTO = new UserDTOLogin(usuario.getId(), loginUsuario.getNombreUsuario(), GenerateToken.getJWTToken(loginUsuario.getNombreUsuario()));
         return new ResponseEntity(usuarioDTO, HttpStatus.OK);
     }
