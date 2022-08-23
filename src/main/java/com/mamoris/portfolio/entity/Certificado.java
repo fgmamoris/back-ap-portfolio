@@ -37,8 +37,6 @@ public class Certificado {
     @NotNull
     @Size(min = 5, max = 128)
     private String nombreCurso;
-    @NotNull
-    @Size(min = 10, max = 128)
     private String urlCertificado;
     @NotNull
     private Date fecha;

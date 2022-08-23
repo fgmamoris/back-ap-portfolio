@@ -35,13 +35,13 @@ public class JWTAuthorizationFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws ServletException, IOException {
         try {
             if (existeJWTToken(request, response)) {
-                System.out.println("PASO1");
+                
                 Claims claims = validateToken(request);
                 if (claims.get("authorities") != null) {
-                    System.out.println("PASO5");
+                
                     setUpSpringAuthentication(claims);
                 } else {
-                    System.out.println("PASO7");
+                
                     SecurityContextHolder.clearContext();
                 }
             } else {
@@ -49,10 +49,10 @@ public class JWTAuthorizationFilter extends OncePerRequestFilter {
             }
             chain.doFilter(request, response);
         } catch (ExpiredJwtException | UnsupportedJwtException | MalformedJwtException | AccessDeniedException e) {
-            System.out.println("PASO6");
+            
             //response.setStatus(HttpServletResponse.SC_CONFLICT);
             ((HttpServletResponse) response).sendError(HttpServletResponse.SC_FORBIDDEN, e.getMessage());
-            System.out.println("PASO7");
+            
             System.out.println(e.getMessage());
             //chain.doFilter(request, response);
             return;
@@ -63,10 +63,10 @@ public class JWTAuthorizationFilter extends OncePerRequestFilter {
         String jwtToken;
         jwtToken = request.getHeader(HEADER).replace(PREFIX, "");
         try {
-            System.out.println("PASO3");
+            
             Jwts.parser().setSigningKey(SECRET.getBytes()).parseClaimsJws(jwtToken).getBody();
         } catch (Exception e) {
-            System.out.println("PASO4");
+            
             throw new MalformedJwtException(e.getMessage());
         }  
         return Jwts.parser().setSigningKey(SECRET.getBytes()).parseClaimsJws(jwtToken).getBody();

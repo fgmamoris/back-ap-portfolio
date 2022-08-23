@@ -57,11 +57,7 @@ public class CertificadoController {
         if (StringUtils.isBlank(certificadoDTO.getNombreCurso())) {
             return new ResponseEntity(new Mensaje("El nombreCurso obligatorio"), HttpStatus.BAD_REQUEST);
         }
-        if (StringUtils.isBlank(certificadoDTO.getUrlCertificado())) {
-            return new ResponseEntity(new Mensaje("La urlCertificado es obligatoria"), HttpStatus.BAD_REQUEST);
-        } else if (!Validate.validateURL(certificadoDTO.getUrlCertificado())) {
-            return new ResponseEntity(new Mensaje("La urlCertificado contiene un formato incorrecto"), HttpStatus.BAD_REQUEST);
-        }
+
         if (certificadoDTO.getFecha() == null) {
             return new ResponseEntity(new Mensaje("La fechaFinalizacion de finalización es obligatoria"), HttpStatus.BAD_REQUEST);
         } else if (StringUtils.isBlank(certificadoDTO.getFecha().toString())) {
@@ -102,9 +98,6 @@ public class CertificadoController {
         }
         if (StringUtils.isBlank(certificadoDTO.getNombreCurso())) {
             return new ResponseEntity(new Mensaje("El nombreCurso obligatorio"), HttpStatus.BAD_REQUEST);
-        }
-        if (StringUtils.isBlank(certificadoDTO.getUrlCertificado())) {
-            return new ResponseEntity(new Mensaje("La urlCertificado es obligatoria"), HttpStatus.BAD_REQUEST);
         }
         if (certificadoDTO.getFecha() == null) {
             return new ResponseEntity(new Mensaje("La fechade finalización es obligatoria"), HttpStatus.BAD_REQUEST);
