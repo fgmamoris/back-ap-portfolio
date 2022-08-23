@@ -105,11 +105,6 @@ public class CertificadoController {
         if (StringUtils.isBlank(certificadoDTO.getNombreCurso())) {
             return new ResponseEntity(new Mensaje("El nombreCurso obligatorio"), HttpStatus.BAD_REQUEST);
         }
-        if (certificadoDTO.getFecha() == null) {
-            return new ResponseEntity(new Mensaje("La fechade finalización es obligatoria"), HttpStatus.BAD_REQUEST);
-        } else if (StringUtils.isBlank(certificadoDTO.getFecha().toString())) {
-            return new ResponseEntity(new Mensaje("La fechaFinalizacion de finalización es obligatoria"), HttpStatus.BAD_REQUEST);
-        }
         if (!certificadoService.existsById(id)) {
             return new ResponseEntity(new Mensaje("No existe registro"), HttpStatus.NOT_FOUND);
         }
@@ -120,7 +115,16 @@ public class CertificadoController {
         } else {
             certificadoUpdated.setUrlCertificado(certificadoDTO.getUrlCertificado().toLowerCase());
         }
-        certificadoUpdated.setFecha(certificadoDTO.getFecha());
+        SimpleDateFormat ft = new SimpleDateFormat("aaaa-MM-dd");
+        Date excelDate = null;
+        try {
+            excelDate = ft.parse(certificadoDTO.getFecha().toString());
+
+        } catch (Exception ae) {
+            return new ResponseEntity(new Mensaje("Formato de fecha incorrecto, utilizar aaaa-mm-dd"), HttpStatus.BAD_REQUEST);
+        }
+
+        certificadoUpdated.setFecha(excelDate);
         certificadoUpdated = certificadoService.save(certificadoUpdated);
         return new ResponseEntity(certificadoUpdated, HttpStatus.OK);
     }
