@@ -19,11 +19,6 @@ import com.mamoris.portfolio.entity.Certificado;
 import com.mamoris.portfolio.service.CertificadoService;
 import com.mamoris.portfolio.service.PersonaService;
 import com.mamoris.portfolio.utils.Mensaje;
-import com.mamoris.portfolio.utils.Validate;
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.util.Date;
 import java.util.List;
 import javax.validation.Valid;
 import org.apache.commons.lang3.StringUtils;
@@ -36,7 +31,7 @@ import org.springframework.beans.factory.annotation.Autowired;
  * @author Federico Mamoris
  */
 @RestController
-@RequestMapping("/api/certificate")
+@RequestMapping("/api/v1/certificate")
 @CrossOrigin(origins = "https://portfolio-fm.firebaseapp.com")
 public class CertificadoController {
 
@@ -48,7 +43,7 @@ public class CertificadoController {
     @Autowired
     PersonaService personaService;
 
-    @GetMapping("/certificates")
+    @GetMapping("/")
     @ResponseBody
     public ResponseEntity<List<Certificado>> getAll() {
         List<Certificado> list = certificadoService.getAll();
@@ -56,7 +51,7 @@ public class CertificadoController {
     }
 
     //@PreAuthorize("hasRole('ADMIN')")
-    @PostMapping("/create")
+    @PostMapping("/")
     public ResponseEntity<Certificado> create(@Valid @RequestBody Certificado certificadoDTO) {
 
         if (StringUtils.isBlank(certificadoDTO.getNombreCurso())) {
@@ -93,7 +88,7 @@ public class CertificadoController {
         return new ResponseEntity(certificado, HttpStatus.OK);
     }
 
-    @PutMapping("/update/{id}")
+    @PutMapping("/{id}")
     public ResponseEntity<Certificado> update(@PathVariable("id") Long id, @Valid @RequestBody Certificado certificadoDTO) {
 
         if (!certificadoService.existsById(id)) {
@@ -119,7 +114,7 @@ public class CertificadoController {
         return new ResponseEntity(certificadoUpdated, HttpStatus.OK);
     }
 
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<?> delete(@PathVariable("id") Long id) {
         if (!certificadoService.existsById(id)) {
             return new ResponseEntity(new Mensaje("No existe registro"), HttpStatus.NOT_FOUND);

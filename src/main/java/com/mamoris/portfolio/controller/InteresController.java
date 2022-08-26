@@ -31,7 +31,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @author Federico Mamoris
  */
 @RestController
-@RequestMapping("/api/interest")
+@RequestMapping("/api/v1/interest")
 @CrossOrigin(origins = "https://portfolio-fm.firebaseapp.com")
 //@CrossOrigin(origins = "http://localhost:4200")
 public class InteresController {
@@ -44,21 +44,23 @@ public class InteresController {
     @Autowired
     PersonaService personaService;
 
-    @GetMapping("/interests")
+    @GetMapping("/")
     @ResponseBody
     public ResponseEntity<List<Interes>> getAll() {
         List<Interes> list = interesService.getAll();
         return new ResponseEntity(list, HttpStatus.OK);
     }
 
-    @PostMapping("/create")
+    @PostMapping("/")
     public ResponseEntity<Interes> create(@Valid @RequestBody Interes interesDTO) {
         if (interesService.getAll().isEmpty()) {
 
-            if (StringUtils.isBlank(interesDTO.getDescripcion())) {
+            if (StringUtils.isBlank(interesDTO.getDescripcion()) || interesDTO.getDescripcion() == null) {
                 return new ResponseEntity(new Mensaje("La descripción es obligatoria"), HttpStatus.BAD_REQUEST);
+            } else if (interesDTO.getDescripcion().length() > 10000) {
+                return new ResponseEntity(new Mensaje("La descripción es demasiado grande, maximo 10000 carácteres"), HttpStatus.BAD_REQUEST);
             }
-
+            System.out.println(interesDTO.getDescripcion().length());
             if (interesDTO.getPersona() == null) {
                 return new ResponseEntity(new Mensaje("La persona es obligatoria"), HttpStatus.BAD_REQUEST);
             } else if (interesDTO.getPersona().getId() == null) {
@@ -107,15 +109,18 @@ public class InteresController {
         }
     }
 
-    @PutMapping("/update/{id}")
-    public ResponseEntity<Interes> update(@PathVariable("id") Long id,@Valid @RequestBody Interes interesDTO) {
-        if (StringUtils.isBlank(interesDTO.getDescripcion())) {
+    @PutMapping("/{id}")
+    public ResponseEntity<Interes> update(@PathVariable("id") Long id, @Valid @RequestBody Interes interesDTO) {
+        if (StringUtils.isBlank(interesDTO.getDescripcion()) || interesDTO.getDescripcion() == null) {
             return new ResponseEntity(new Mensaje("La descripción es obligatoria"), HttpStatus.BAD_REQUEST);
+        } else if (interesDTO.getDescripcion().length() > 10000) {
+            return new ResponseEntity(new Mensaje("La descripción es demasiado grande, maximo 10000 carácteres"), HttpStatus.BAD_REQUEST);
         }
+
         if (!interesService.existsById(id)) {
             return new ResponseEntity(new Mensaje("No existe registro con el parametro id ingresado"), HttpStatus.NOT_FOUND);
         }
-         if (!interesService.existsById(id)) {
+        if (!interesService.existsById(id)) {
             return new ResponseEntity(new Mensaje("No existe registro"), HttpStatus.NOT_FOUND);
         }
         Interes interesUpdated = interesService.getById(id);
@@ -124,7 +129,7 @@ public class InteresController {
         return new ResponseEntity(interesUpdated, HttpStatus.OK);
     }
 
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<?> delete(@PathVariable("id") Long id) {
         if (!interesService.existsById(id)) {
             return new ResponseEntity(new Mensaje("No existe registro"), HttpStatus.NOT_FOUND);

@@ -2,12 +2,11 @@
  */
 package com.mamoris.portfolio.controller;
 
-import com.mamoris.portfolio.entity.Persona;
+
 import com.mamoris.portfolio.service.SkillService;
 import com.mamoris.portfolio.entity.Skill;
 import com.mamoris.portfolio.service.PersonaService;
 import com.mamoris.portfolio.utils.Mensaje;
-import com.mamoris.portfolio.utils.Validate;
 import java.util.List;
 import javax.validation.Valid;
 import org.apache.commons.lang3.StringUtils;
@@ -32,7 +31,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @author Federico Mamoris
  */
 @RestController
-@RequestMapping("/api/skill")
+@RequestMapping("/api/v1/skill")
 
 @CrossOrigin(origins = "https://portfolio-fm.firebaseapp.com")
 public class SkillController {
@@ -45,14 +44,14 @@ public class SkillController {
     @Autowired
     PersonaService personaService;
 
-    @GetMapping("/skills")
+    @GetMapping("/")
     @ResponseBody
     public ResponseEntity<List<Skill>> getAll() {
         List<Skill> list = skillService.getAll();
         return new ResponseEntity(list, HttpStatus.OK);
     }
 
-    @PostMapping("/create")
+    @PostMapping("/")
     public ResponseEntity<Skill> create(@Valid @RequestBody Skill skillDTO) {
         if (StringUtils.isBlank(skillDTO.getNombreIcono())) {
             return new ResponseEntity(new Mensaje("El nombreIcono es obligatorio"), HttpStatus.BAD_REQUEST);
@@ -84,7 +83,7 @@ public class SkillController {
         return new ResponseEntity(redSocial, HttpStatus.OK);
     }
 
-    @PutMapping("/update/{id}")
+    @PutMapping("/{id}")
     public ResponseEntity<Skill> update(@PathVariable("id") Long id, @Valid @RequestBody Skill skillDTO) {
         if (StringUtils.isBlank(skillDTO.getNombreIcono())) {
             return new ResponseEntity(new Mensaje("El nombreIcono es obligatorio"), HttpStatus.BAD_REQUEST);
@@ -104,7 +103,7 @@ public class SkillController {
         return new ResponseEntity<>(skillUpdated, HttpStatus.OK);
     }
 
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<?> delete(@PathVariable("id") Long id) {
         if (!skillService.existsById(id)) {
             return new ResponseEntity(new Mensaje("No existe registro"), HttpStatus.NOT_FOUND);

@@ -31,7 +31,7 @@ import org.springframework.beans.factory.annotation.Autowired;
  * @author Federico Mamoris
  */
 @RestController
-@RequestMapping("/api/education")
+@RequestMapping("/api/v1/education")
 
 @CrossOrigin(origins = "https://portfolio-fm.firebaseapp.com")
 public class EducacionController {
@@ -44,14 +44,14 @@ public class EducacionController {
     @Autowired
     PersonaService personaService;
 
-    @GetMapping("/educations")
+    @GetMapping("/")
     @ResponseBody
     public ResponseEntity<List<Educacion>> getAll() {
         List<Educacion> list = educacionService.getAll();
         return new ResponseEntity(list, HttpStatus.OK);
     }
 
-    @PostMapping("/create")
+    @PostMapping("/")
     public ResponseEntity<Educacion> create(@Valid @RequestBody Educacion educacionDTO) {
 
         //descripcion	fecha_fin	fecha_inicio	institucion	titulo	persona_id
@@ -73,6 +73,9 @@ public class EducacionController {
         } else if (!personaService.existsById(educacionDTO.getPersona().getId())) {
             return new ResponseEntity(new Mensaje("No existe registro de persona con el parametro id"), HttpStatus.NOT_FOUND);
         }
+        if (educacionDTO.getDescripcion().length() > 10000) {
+            return new ResponseEntity(new Mensaje("La descripción es demasiado grande, maximo 10000 carácteres"), HttpStatus.BAD_REQUEST);
+        }
         Educacion educacion = new Educacion();
         Persona persona = personaService.getById(educacionDTO.getPersona().getId());
         //experiencia.setPersona(persona);
@@ -90,7 +93,7 @@ public class EducacionController {
         return new ResponseEntity(educacion, HttpStatus.OK);
     }
 
-    @PutMapping("/update/{id}")
+    @PutMapping("/{id}")
     public ResponseEntity<Educacion> update(@PathVariable("id") Long id, @Valid @RequestBody Educacion educacionDTO) {
         //descripcion	fecha_fin	fecha_inicio	institucion	titulo	persona_id
         if (!educacionService.existsById(id)) {
@@ -111,6 +114,9 @@ public class EducacionController {
         Educacion educacion = educacionService.getById(id);
         educacion.setTitulo(educacionDTO.getTitulo());
         educacion.setInstitucion(educacionDTO.getInstitucion());
+        if (educacionDTO.getDescripcion().length() > 10000) {
+            return new ResponseEntity(new Mensaje("La descripción es demasiado grande, maximo 10000 carácteres"), HttpStatus.BAD_REQUEST);
+        }
         if (educacionDTO.getDescripcion() != null) {
             educacion.setDescripcion(educacionDTO.getDescripcion());
         }
@@ -124,7 +130,7 @@ public class EducacionController {
         return new ResponseEntity(educacion, HttpStatus.OK);
     }
 
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<?> delete(@PathVariable("id") Long id) {
         if (!educacionService.existsById(id)) {
             return new ResponseEntity(new Mensaje("No existe registro"), HttpStatus.NOT_FOUND);

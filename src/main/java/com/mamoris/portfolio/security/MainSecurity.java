@@ -2,7 +2,6 @@
  */
 package com.mamoris.portfolio.security;
 
-
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -20,17 +19,17 @@ class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .cors().and().csrf().disable()
                 //.csrf().disable()
                 .addFilterAfter(new JWTAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class)
-                .authorizeRequests()                
-                .antMatchers(HttpMethod.GET, "/api/jwt/**").permitAll()
-                .antMatchers(HttpMethod.GET, "/api/person/**").permitAll()
-                .antMatchers(HttpMethod.GET, "/api/about/**").permitAll()
-                .antMatchers(HttpMethod.GET, "/api/certificate/**").permitAll()
-                .antMatchers(HttpMethod.GET, "/api/education/**").permitAll()
-                .antMatchers(HttpMethod.GET, "/api/experience/**").permitAll()
-                .antMatchers(HttpMethod.GET, "/api/interest/**").permitAll()
-                .antMatchers(HttpMethod.GET, "/api/socialmedia/**").permitAll()
-                .antMatchers(HttpMethod.GET, "/api/skill/**").permitAll()
-                .antMatchers(HttpMethod.POST, "/api/auth/**").permitAll()
+                .authorizeRequests()
+                .antMatchers(HttpMethod.GET, "/api/v1/jwt/**").permitAll()
+                .antMatchers(HttpMethod.GET, "/api/v1/person/**").permitAll()
+                .antMatchers(HttpMethod.GET, "/api/v1/about/**").permitAll()
+                .antMatchers(HttpMethod.GET, "/api/v1/certificate/**").permitAll()
+                .antMatchers(HttpMethod.GET, "/api/v1/education/**").permitAll()
+                .antMatchers(HttpMethod.GET, "/api/v1/experience/**").permitAll()
+                .antMatchers(HttpMethod.GET, "/api/v1/interest/**").permitAll()
+                .antMatchers(HttpMethod.GET, "/api/v1/socialmedia/**").permitAll()
+                .antMatchers(HttpMethod.GET, "/api/v1/skill/**").permitAll()
+                .antMatchers(HttpMethod.POST, "/api/v1/auth/**").permitAll()
                 .anyRequest().authenticated();
 
     }

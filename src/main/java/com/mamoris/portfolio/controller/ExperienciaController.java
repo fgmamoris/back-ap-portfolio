@@ -31,7 +31,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
  * @author Federico Mamoris
  */
 @RestController
-@RequestMapping("/api/experience")
+@RequestMapping("/api/v1/experience")
 //@CrossOrigin(origins="http://localhost:4200")
 @CrossOrigin(origins = "https://portfolio-fm.firebaseapp.com")
 public class ExperienciaController {
@@ -44,14 +44,14 @@ public class ExperienciaController {
     @Autowired
     PersonaService personaService;
 
-    @GetMapping("/experiences")
+    @GetMapping("/")
     @ResponseBody
     public ResponseEntity<List<Experiencia>> getAll() {
         List<Experiencia> list = experienciaService.getAll();
         return new ResponseEntity(list, HttpStatus.OK);
     }
 
-    @PostMapping("/create")
+    @PostMapping("/")
     public ResponseEntity<Experiencia> create(@Valid @RequestBody Experiencia experienciaDTO) {
         if (StringUtils.isBlank(experienciaDTO.getPuesto())) {
             return new ResponseEntity(new Mensaje("El Puesto es obligatorio"), HttpStatus.BAD_REQUEST);
@@ -81,6 +81,10 @@ public class ExperienciaController {
                 return new ResponseEntity(new Mensaje("La fechaInicio no puede ser posterior a fechaFin"), HttpStatus.BAD_REQUEST);
             }
         }
+        if (experienciaDTO.getDescripcion().length() > 10000) {
+            return new ResponseEntity(new Mensaje("La descripción es demasiado grande, maximo 10000 carácteres"), HttpStatus.BAD_REQUEST);
+        }
+
         Experiencia experiencia;
         Persona persona = personaService.getById(experienciaDTO.getPersona().getId());
         //experiencia.setPersona(persona);
@@ -99,8 +103,8 @@ public class ExperienciaController {
         return new ResponseEntity(experiencia, HttpStatus.OK);
     }
 
-    @PutMapping("/update/{id}")
-    public ResponseEntity<Experiencia> update(@PathVariable("id") Long id,@Valid @RequestBody Experiencia experienciaDTO
+    @PutMapping("/{id}")
+    public ResponseEntity<Experiencia> update(@PathVariable("id") Long id, @Valid @RequestBody Experiencia experienciaDTO
     ) {
         if (!experienciaService.existsById(id)) {
             return new ResponseEntity(new Mensaje("No existe registro"), HttpStatus.NOT_FOUND);
@@ -127,6 +131,9 @@ public class ExperienciaController {
         Experiencia experiencia = experienciaService.getById(id);
         experiencia.setPuesto(experienciaDTO.getPuesto());
         experiencia.setFechaInicio(experienciaDTO.getFechaInicio());
+        if (experienciaDTO.getDescripcion().length() > 10000) {
+            return new ResponseEntity(new Mensaje("La descripción es demasiado grande, maximo 10000 carácteres"), HttpStatus.BAD_REQUEST);
+        }
         if (experienciaDTO.getCompania() != null) {
             experiencia.setCompania(experienciaDTO.getCompania());
         }
@@ -147,7 +154,7 @@ public class ExperienciaController {
         return new ResponseEntity(experiencia, HttpStatus.OK);
     }
 
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<?> delete(@PathVariable("id") Long id
     ) {
         if (!experienciaService.existsById(id)) {

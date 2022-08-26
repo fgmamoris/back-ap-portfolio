@@ -31,7 +31,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @author Federico Mamoris
  */
 @RestController
-@RequestMapping("/api/socialmedia")
+@RequestMapping("/api/v1/socialmedia")
 
 @CrossOrigin(origins = "https://portfolio-fm.firebaseapp.com")
 public class RedSolcialController {
@@ -44,14 +44,14 @@ public class RedSolcialController {
     @Autowired
     PersonaService personaService;
 
-    @GetMapping("/socialmedias")
+    @GetMapping("/")
     @ResponseBody
     public ResponseEntity<List<RedSocial>> getAll() {
         List<RedSocial> list = redSocialService.getAll();
         return new ResponseEntity(list, HttpStatus.OK);
     }
 
-    @PostMapping("/create")
+    @PostMapping("/")
     public ResponseEntity<RedSocial> create(@Valid @RequestBody RedSocial redSocialDTO) {
         if (StringUtils.isBlank(redSocialDTO.getNombreIcono())) {
             return new ResponseEntity(new Mensaje("El nombreIcono es obligatorio"), HttpStatus.BAD_REQUEST);
@@ -92,7 +92,7 @@ public class RedSolcialController {
         return new ResponseEntity(redSocial, HttpStatus.OK);
     }
 
-    @PutMapping("/update/{id}")
+    @PutMapping("/{id}")
     public ResponseEntity<RedSocial> update(@PathVariable("id") Long id, @Valid @RequestBody RedSocial redSocialDTO) {
         if (StringUtils.isBlank(redSocialDTO.getNombreIcono())) {
             return new ResponseEntity(new Mensaje("El nombreIcono es obligatorio"), HttpStatus.BAD_REQUEST);
@@ -123,7 +123,7 @@ public class RedSolcialController {
         return new ResponseEntity(redUpdated, HttpStatus.OK);
     }
 
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<?> delete(@PathVariable("id") Long id) {
         if (!redSocialService.existsById(id)) {
             return new ResponseEntity(new Mensaje("No existe registro"), HttpStatus.NOT_FOUND);

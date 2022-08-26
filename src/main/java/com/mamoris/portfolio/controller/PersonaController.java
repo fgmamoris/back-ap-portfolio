@@ -30,7 +30,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @author Federico Mamoris
  */
 @RestController
-@RequestMapping("/api/person")
+@RequestMapping("/api/v1/person")
 @CrossOrigin(origins = "https://portfolio-fm.firebaseapp.com")
 //@CrossOrigin(origins = "http://localhost:4200", allowCredentials = "true", allowedHeaders = "*")
 public class PersonaController {
@@ -40,14 +40,14 @@ public class PersonaController {
     @Autowired
     PersonaService personaService;
 
-    @GetMapping("/persons")
+    @GetMapping("/")
     @ResponseBody
     public ResponseEntity<List<Persona>> getAll() {
         List<Persona> list = personaService.getAll();
         return new ResponseEntity(list, HttpStatus.OK);
     }
 
-    @PostMapping("/create")
+    @PostMapping("/")
     public ResponseEntity<Persona> create(@Valid @RequestBody Persona personaDTO) {
 
         if (StringUtils.isBlank(personaDTO.getNombre())) {
@@ -81,7 +81,7 @@ public class PersonaController {
         return new ResponseEntity(persona, HttpStatus.OK);
     }
 
-    @PutMapping("/update/{id}")
+    @PutMapping("/{id}")
     public ResponseEntity<Persona> update(@PathVariable("id") Long id, @Valid @RequestBody Persona personaDTO) {
         if (StringUtils.isBlank(personaDTO.getNombre())) {
             return new ResponseEntity(new Mensaje("El nombre es obligatorio"), HttpStatus.BAD_REQUEST);
@@ -134,7 +134,7 @@ public class PersonaController {
 
     }
 
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<?> delete(@PathVariable("id") Long id) {
         if (!personaService.existsById(id)) {
             return new ResponseEntity(new Mensaje("No existe registro"), HttpStatus.NOT_FOUND);

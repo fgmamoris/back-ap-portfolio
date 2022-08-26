@@ -42,6 +42,7 @@ public class Experiencia {
     @Size(min = 5, max = 128)
     private String compania;
 
+    @Size(max = 65555)
     private String descripcion;
 
     @NotNull

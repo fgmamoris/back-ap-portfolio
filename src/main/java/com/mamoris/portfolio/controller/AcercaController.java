@@ -30,8 +30,8 @@ import org.springframework.web.bind.annotation.RestController;
  *
  * @author Federico Mamoris
  */
-@RestController
-@RequestMapping("/api/about")
+@RestController 
+@RequestMapping("/api/v1/about")
 //@CrossOrigin(origins = "*")
 @CrossOrigin(origins = "https://portfolio-fm.firebaseapp.com")
 public class AcercaController {
@@ -44,20 +44,21 @@ public class AcercaController {
     @Autowired
     PersonaService personaService;
 
-    @GetMapping("/abouts")
-    
+    @GetMapping("/")
+
     @ResponseBody
     public ResponseEntity<List<Acerca>> getAll() {
         List<Acerca> list = acercaService.getAll();
         return new ResponseEntity(list, HttpStatus.OK);
     }
 
-    
-    @PostMapping("/create")
+    @PostMapping("/")
     public ResponseEntity<Acerca> create(@Valid @RequestBody Acerca acercaDTO) throws EntityNotFoundException {
         if (acercaService.getAll().isEmpty()) {
             if (StringUtils.isBlank(acercaDTO.getDescripcion()) || acercaDTO.getDescripcion() == null) {
                 return new ResponseEntity(new Mensaje("La descripción es obligatoria"), HttpStatus.BAD_REQUEST);
+            } else if (acercaDTO.getDescripcion().length() > 10000) {
+                return new ResponseEntity(new Mensaje("La descripción es demasiado grande, maximo 10000 carácteres"), HttpStatus.BAD_REQUEST);
             }
             if (acercaDTO.getPersona() == null) {
                 return new ResponseEntity(new Mensaje("El objeto persona es obligatorio"), HttpStatus.BAD_REQUEST);
@@ -96,11 +97,13 @@ public class AcercaController {
         return new ResponseEntity(acerca, HttpStatus.OK);
     }
 
-    @PutMapping("/update/{id}")
+    @PutMapping("/{id}")
     public ResponseEntity<Acerca> update(@PathVariable("id") Long id, @Valid @RequestBody Acerca acercaDTO) {
         if (acercaService.getAll().size() == 1) {
-            if (StringUtils.isBlank(acercaDTO.getDescripcion())) {
+            if (StringUtils.isBlank(acercaDTO.getDescripcion()) || acercaDTO.getDescripcion() == null) {
                 return new ResponseEntity(new Mensaje("La descripción es obligatoria"), HttpStatus.BAD_REQUEST);
+            } else if (acercaDTO.getDescripcion().length() > 10000) {
+                return new ResponseEntity(new Mensaje("La descripción es demasiado grande, maximo 10000 carácteres"), HttpStatus.BAD_REQUEST);
             }
             if (!acercaService.existsById(id)) {
                 return new ResponseEntity(new Mensaje("No existe registro con el parametro id ingresado"), HttpStatus.NOT_FOUND);
@@ -117,7 +120,7 @@ public class AcercaController {
         }
     }
 
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<?> delete(@PathVariable("id") Long id) {
         if (!acercaService.existsById(id)) {
             return new ResponseEntity(new Mensaje("No existe registro"), HttpStatus.NOT_FOUND);

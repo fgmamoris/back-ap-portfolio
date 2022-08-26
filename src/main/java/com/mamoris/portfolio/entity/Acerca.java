@@ -35,7 +35,7 @@ public class Acerca {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @NotNull
-    @Size(min=5, max=128)
+    @Size(max = 65555)
     private String descripcion;
 
     //ToString.Exclude
